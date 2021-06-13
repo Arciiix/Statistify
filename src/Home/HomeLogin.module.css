@@ -1,0 +1,141 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+.logoImg {
+  width: 200px;
+  height: 200px;
+}
+.logoText {
+  color: #0db850;
+  background: linear-gradient(
+    90deg,
+    rgba(11, 168, 89, 1) 0%,
+    rgba(7, 124, 65, 1) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 150px;
+}
+.loginWithSpotifyButton {
+  width: 600px;
+  height: 60px;
+  background-color: #0db850;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s;
+  margin-bottom: 5px;
+}
+.loginWithSpotifyIcon {
+  margin-right: 10px;
+  font-size: 40px;
+}
+
+.loginWithSpotifyButton:hover {
+  background-color: #0b9241;
+  cursor: pointer;
+}
+.loginWithSpotifyButton:active {
+  background-color: #07662d;
+}
+
+@media only screen and (max-width: 600px) {
+  .logoImg {
+    width: 80px;
+    height: 80px;
+  }
+  .logoText {
+    font-size: 3.5em;
+  }
+  .loginWithSpotifyButton {
+    width: 250px;
+  }
+  .loginWithSpotifyShortText {
+    display: flex;
+  }
+  .loginWithSpotifyText {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .logoImg {
+    width: 120px;
+    height: 120px;
+  }
+  .logoText {
+    font-size: 4em;
+  }
+  .loginWithSpotifyButton {
+    width: 300px;
+  }
+  .loginWithSpotifyShortText {
+    display: flex;
+  }
+  .loginWithSpotifyText {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .logoImg {
+    width: 150px;
+    height: 150px;
+  }
+  .logoText {
+    font-size: 5em;
+  }
+  .loginWithSpotifyButton {
+    width: 500px;
+  }
+  .loginWithSpotifyShortText {
+    display: none;
+  }
+  .loginWithSpotifyText {
+    display: flex;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .logoImg {
+    width: 200px;
+    height: 200px;
+  }
+  .logoText {
+    font-size: 150px;
+  }
+  .loginWithSpotifyButton {
+    width: 600px;
+  }
+  .loginWithSpotifyShortText {
+    display: none;
+  }
+  .loginWithSpotifyText {
+    display: flex;
+  }
+}
+
+@media only screen and (max-height: 300px) {
+  .container {
+    justify-content: inherit;
+  }
+}

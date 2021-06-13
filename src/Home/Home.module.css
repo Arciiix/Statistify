@@ -1,0 +1,115 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.userProfile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.userProfilePicture {
+  width: 200px;
+  height: 200px;
+}
+.helloMessage {
+  color: white;
+  font-size: 5em;
+  margin: 20px 0;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+.buttonsDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.optionButton {
+  width: 600px;
+  height: 60px;
+  background-color: #0db850;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 2em;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
+}
+.optionButton:hover {
+  cursor: pointer;
+  background-color: #0b9241;
+}
+.optionButton:active {
+  background-color: #07662d;
+}
+
+@media only screen and (max-width: 600px) {
+  .userProfilePicture {
+    width: 150px;
+    height: 150px;
+  }
+  .helloMessage {
+    font-size: 2em;
+  }
+  .optionButton {
+    width: 300px;
+    font-size: 1.5em;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .userProfilePicture {
+    width: 150px;
+    height: 150px;
+  }
+  .helloMessage {
+    font-size: 2.5em;
+  }
+  .optionButton {
+    width: 400px;
+    font-size: 2em;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .userProfilePicture {
+    width: 150px;
+    height: 150px;
+  }
+  .helloMessage {
+    font-size: 3em;
+  }
+  .optionButton {
+    width: 450px;
+    font-size: 2em;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .userProfilePicture {
+    width: 200px;
+    height: 200px;
+  }
+  .helloMessage {
+    font-size: 4em;
+  }
+  .optionButton {
+    width: 600px;
+    font-size: 2em;
+  }
+}
+
+@media only screen and (max-height: 300px) {
+  .container {
+    justify-content: inherit;
+  }
+}
