@@ -22,3 +22,4 @@ yarn-error.log*
 
 # project files
 /icon-project
+server/secret.ts
