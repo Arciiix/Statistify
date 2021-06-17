@@ -1,0 +1,87 @@
+.songContainer {
+  display: flex;
+  background-color: lightblue; /* DEV The color is for development - I can see the placement of the elements much better */
+  min-width: min-content;
+  max-width: 90vw;
+  min-height: 150px;
+  align-items: center;
+  padding: 10px;
+}
+.cover {
+  background-color: lightseagreen; /* DEV The color is for development - I can see the placement of the elements much better */
+  width: 140px;
+  height: 140px;
+  margin-right: 10px;
+}
+.cover img {
+  width: 140px;
+  height: 140px;
+}
+.trackInfo {
+  background-color: limegreen; /* DEV The color is for development - I can see the placement of the elements much better */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 5px;
+}
+.titleAndAuthor {
+  background-color: mediumvioletred; /* DEV The color is for development - I can see the placement of the elements much better */
+  min-height: 50%;
+  height: min-content;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+.title {
+  font-size: 2em;
+}
+.author {
+  font-size: 1.2em;
+}
+.trackLength {
+  background-color: mediumorchid; /* DEV The color is for development - I can see the placement of the elements much better */
+  height: 50px;
+  color: white;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+}
+.playButtons {
+  background-color: maroon; /* DEV The color is for development - I can see the placement of the elements much better */
+  width: 200px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.iconButton {
+  color: white;
+  font-size: 3em;
+  margin: 10px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.playIcon:hover {
+  color: #2e69ff;
+}
+.playIcon:active {
+  color: #1e4dc4;
+}
+
+.youTubeIcon:hover {
+  color: #ff0000;
+}
+.youTubeIcon:active {
+  color: #c50101;
+}
+
+.spotifyIcon:hover {
+  color: #1db954;
+}
+.spotifyIcon:active {
+  color: #179242;
+}

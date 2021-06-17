@@ -3,6 +3,7 @@ import React from "react";
 import { FaSpotify } from "react-icons/fa";
 import homeLoginStyles from "./HomeLogin.module.css";
 import homeStyles from "./Home.module.css";
+import Song from "../Song/Song";
 
 interface HomeState {
   isLogged: boolean;
@@ -10,7 +11,7 @@ interface HomeState {
   username: string;
 }
 
-class Home extends React.Component<any, any> {
+class Home extends React.Component<any, HomeState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -68,6 +69,8 @@ class Home extends React.Component<any, any> {
               </span>
             </button>
           </div>
+          {/*DEV*/}
+          <Song />
         </div>
       );
     }
