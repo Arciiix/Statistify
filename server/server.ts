@@ -35,7 +35,7 @@ app.get("/api/loginWithSpotify", (req, res) => {
     redirect_uri: "http://localhost:3000/proceedLogin", //DEV
     show_dialog: "true", //DEV
     //TODO: Use the state parameter - state: "MAKE THIS",
-    scope: "user-read-recently-played", //TODO: Add the suitable scopes
+    scope: "user-read-recently-played user-read-playback-state", //TODO: Add the suitable scopes
   };
   res.redirect(
     `https://accounts.spotify.com/authorize?${new URLSearchParams(
@@ -98,6 +98,50 @@ app.get("/api/generateToken", async (req, res) => {
     res.send({ token });
   }
 });
+
+app.get("/api/getUserData", async (req, res) => {
+  let tokenValidation = await validateJWTToken(req.cookies.token);
+  if (tokenValidation.error) return res.send(tokenValidation);
+
+  //Get the user data from the Spotify API
+
+  let basicUserInfoReq = await fetch(`https://api.spotify.com/v1/me`, {
+    headers: {
+      Authorization: `Bearer ${tokenValidation.payload.token}`,
+    },
+  });
+
+  let basicUserInfo = await basicUserInfoReq.json();
+
+  if (basicUserInfo.error) {
+    return res.send({
+      error: true,
+      errorMessage: JSON.stringify(basicUserInfo),
+    });
+  }
+
+  let currentTrackReq = await fetch(`https://api.spotify.com/v1/me/player`, {
+    headers: {
+      Authorization: `Bearer ${tokenValidation.payload.token}`,
+    },
+  });
+  let currentTrack = await currentTrackReq.json();
+
+  if (currentTrack.error) {
+    return res.send({
+      error: true,
+      errorMessage: JSON.stringify(currentTrack),
+    });
+  }
+
+  basicUserInfo.currentlyPlaying = currentTrack;
+
+  return res.send(basicUserInfo);
+});
+
+app.all("/api/*", (req, res) =>
+  res.status(404).send({ error: true, errorMessage: "NOT_FOUND" })
+);
 
 app.all("*", (req, res) => {
   res.send(`Hello, Statistify! (The UI will be there)`);
