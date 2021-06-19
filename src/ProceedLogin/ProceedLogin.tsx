@@ -36,7 +36,14 @@ class ProceedLogin extends React.Component<any, ProceedLoginState> {
     console.log("login");
     //DEV
     //TODO: Remove the proxy from package.json
-    let request = await fetch(`/generateToken?code=${code}`);
+    let request = await fetch(`/api/generateToken?code=${code}`);
+    let response = await request.json();
+
+    if (!response.error && response.token) {
+      this.props.history.replace({ pathname: `/` });
+    } else {
+      this.setState({ error: true, errorMessage: response.errorMessage });
+    }
   }
 
   render() {
