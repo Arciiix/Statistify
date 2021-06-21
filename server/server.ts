@@ -14,6 +14,7 @@ const PORT: number | string = process.env.PORT || 8497;
  */
 
 import constants from "./secret";
+import { Console } from "console";
 
 const app = express();
 
@@ -125,7 +126,21 @@ app.get("/api/getUserData", async (req, res) => {
       Authorization: `Bearer ${tokenValidation.payload.token}`,
     },
   });
-  let currentTrack = await currentTrackReq.json();
+  let currentTrack: any = await currentTrackReq.text();
+
+  if (currentTrack == "") {
+    let currentTrackAnotherRes = await fetch(
+      `https://api.spotify.com/v1/me/player/recently-played?limit=1`,
+      {
+        headers: {
+          Authorization: `Bearer ${tokenValidation.payload.token}`,
+        },
+      }
+    );
+    currentTrack = await (await currentTrackAnotherRes.json()).items[0].track;
+  } else {
+    currentTrack = JSON.parse(currentTrack).item;
+  }
 
   if (currentTrack.error) {
     return res.send({
