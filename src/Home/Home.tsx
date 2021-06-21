@@ -10,6 +10,16 @@ interface HomeState {
   isLogged: boolean;
   userProfilePictureUrl: string;
   username: string;
+  currentTrack: Track;
+}
+
+interface Track {
+  title: string;
+  author: string;
+  album: string;
+  coverURL: string;
+  lengthMs: number;
+  previewUrl?: string;
 }
 
 class Home extends React.Component<any, HomeState> {
@@ -19,7 +29,15 @@ class Home extends React.Component<any, HomeState> {
       isLoading: true,
       isLogged: false,
       userProfilePictureUrl: "",
-      username: "usernameid2198390213821390",
+      username: "",
+      currentTrack: {
+        title: "",
+        author: "",
+        album: "",
+        coverURL: "",
+        lengthMs: 0,
+        previewUrl: "",
+      },
     };
   }
 
@@ -36,11 +54,25 @@ class Home extends React.Component<any, HomeState> {
         this.setState({ isLogged: false, isLoading: false });
       }
     } else {
+      let authors = userDataResponse.currentlyPlaying.artists.map(
+        (e: any) => e.name
+      );
+
+      let currentTrack: Track = {
+        title: userDataResponse.currentlyPlaying.name,
+        author: authors.join(", "),
+        album: userDataResponse.currentlyPlaying.album.name,
+        coverURL: userDataResponse.currentlyPlaying.album.images[0].url,
+        lengthMs: userDataResponse.currentlyPlaying.duration_ms,
+        previewUrl: userDataResponse.currentlyPlaying.preview_url,
+      };
+
       this.setState({
         isLogged: true,
         isLoading: false,
         username: userDataResponse.display_name,
         userProfilePictureUrl: userDataResponse.images[0].url,
+        currentTrack: currentTrack,
       });
     }
   }
@@ -72,7 +104,18 @@ class Home extends React.Component<any, HomeState> {
                 Cześć, {this.state.username}
               </span>
               {/*DEV*/}
-              <Song />
+
+              <Song
+                trackTitle={this.state.currentTrack.title}
+                trackAuthor={this.state.currentTrack.author}
+                trackAlbum={this.state.currentTrack.album}
+                trackLengthMs={this.state.currentTrack.lengthMs}
+                showCover
+                coverImageURL={this.state.currentTrack.coverURL}
+                showPlayButton={false}
+                showYouTubeButton
+                showSpotifyButton
+              />
             </div>
             <div className={homeStyles.buttonsDiv}>
               <button className={homeStyles.optionButton}>

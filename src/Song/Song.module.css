@@ -1,6 +1,5 @@
 .songContainer {
   display: flex;
-  background-color: lightblue; /* DEV The color is for development - I can see the placement of the elements much better */
   min-width: min-content;
   max-width: 90vw;
   min-height: 150px;
@@ -8,7 +7,7 @@
   padding: 10px;
 }
 .cover {
-  background-color: lightseagreen; /* DEV The color is for development - I can see the placement of the elements much better */
+  background-color: rgb(59, 59, 59); /* In case cover didn't load */
   width: 140px;
   height: 140px;
   margin-right: 10px;
@@ -18,7 +17,6 @@
   height: 140px;
 }
 .trackInfo {
-  background-color: limegreen; /* DEV The color is for development - I can see the placement of the elements much better */
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -26,7 +24,6 @@
   margin-right: 5px;
 }
 .titleAndAuthor {
-  background-color: mediumvioletred; /* DEV The color is for development - I can see the placement of the elements much better */
   min-height: 50%;
   height: min-content;
   display: flex;
@@ -40,7 +37,6 @@
   font-size: 1.2em;
 }
 .trackLength {
-  background-color: mediumorchid; /* DEV The color is for development - I can see the placement of the elements much better */
   height: 50px;
   color: white;
   display: flex;
@@ -50,7 +46,6 @@
   font-size: 2em;
 }
 .playButtons {
-  background-color: maroon; /* DEV The color is for development - I can see the placement of the elements much better */
   width: 200px;
   height: 100%;
   display: flex;
