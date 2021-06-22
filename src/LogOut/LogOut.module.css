@@ -1,0 +1,19 @@
+.logOutContainer {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.logOutIcon {
+  color: #ffffff;
+  font-size: 48px;
+  padding: 10px;
+  transition: color 0.25s;
+}
+.logOutIcon:hover {
+  color: #2e69ff;
+  cursor: pointer;
+}
+.logOutIcon:active {
+  color: #1e4dc4;
+}

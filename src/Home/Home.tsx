@@ -4,6 +4,7 @@ import { FaSpotify } from "react-icons/fa";
 import homeLoginStyles from "./HomeLogin.module.css";
 import homeStyles from "./Home.module.css";
 import Song from "../Song/Song";
+import LogOut from "../LogOut/LogOut";
 
 interface HomeState {
   isLoading: boolean;
@@ -91,6 +92,7 @@ class Home extends React.Component<any, HomeState> {
       if (this.state.isLogged) {
         return (
           <div className={homeStyles.container}>
+            <LogOut />
             <div className={homeStyles.userProfile}>
               <img
                 src={

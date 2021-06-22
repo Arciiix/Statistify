@@ -127,14 +127,14 @@ class Song extends React.Component<ISongProps, ISongState> {
             />
           )}
           {this.props.showYouTubeButton && (
-            <FaYoutube
-              className={`${styles.iconButton} ${styles.youTubeIcon}`}
-              onClick={() =>
-                window.open(
-                  `https://www.youtube.com/results?search_query=${this.props.trackAuthor}%20%2D%20${this.props.trackTitle}`
-                )
-              }
-            />
+            <a
+              href={`https://www.youtube.com/results?search_query=${this.props.trackAuthor}%20%2D%20${this.props.trackTitle}`}
+              target="_blank"
+            >
+              <FaYoutube
+                className={`${styles.iconButton} ${styles.youTubeIcon}`}
+              />
+            </a>
           )}
           {this.props.showSpotifyButton && (
             <FaSpotify

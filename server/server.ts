@@ -154,6 +154,14 @@ app.get("/api/getUserData", async (req, res) => {
   return res.send(basicUserInfo);
 });
 
+app.delete("/api/logOut", (req, res) => {
+  if (!req.cookies.token)
+    return res.status(403).send({ error: true, errorMessage: "NO_TOKEN" });
+
+  res.clearCookie("token");
+  res.send({ error: false });
+});
+
 app.all("/api/*", (req, res) =>
   res.status(404).send({ error: true, errorMessage: "NOT_FOUND" })
 );
