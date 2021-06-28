@@ -78,7 +78,7 @@ class Home extends React.Component<any, HomeState> {
         userProfilePictureUrl: userDataResponse.images[0].url,
         currentTrack: currentTrack,
         isSpotifyOpened:
-          window.localStorage.getItem("isSpotifyOpened") === "true" || false,
+          window.sessionStorage.getItem("isSpotifyOpened") === "true" || false,
       });
     }
   }
@@ -90,7 +90,7 @@ class Home extends React.Component<any, HomeState> {
   }
 
   handleSpotifyOpenedSwitch(e: boolean): void {
-    window.localStorage.setItem("isSpotifyOpened", e.toString());
+    window.sessionStorage.setItem("isSpotifyOpened", e.toString());
     this.setState({ isSpotifyOpened: e });
   }
 

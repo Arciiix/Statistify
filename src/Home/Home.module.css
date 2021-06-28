@@ -1,13 +1,14 @@
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: inherit;
   align-items: center;
   height: 95vh;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  margin-top: 20px;
 }
 .userProfile {
   display: flex;
@@ -56,6 +57,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
 }
 .isSpotifyOpenedLabel {
   font-size: 20px;
@@ -63,7 +65,24 @@
   color: white;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 350px) {
+  .userProfilePicture {
+    width: 150px;
+    height: 150px;
+  }
+  .helloMessage {
+    font-size: 1.5em;
+  }
+  .optionButton {
+    width: 200px;
+    font-size: 1.2em;
+  }
+  .isSpotifyOpenedDiv {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (min-width: 351px) {
   .userProfilePicture {
     width: 150px;
     height: 150px;
@@ -116,11 +135,5 @@
   .optionButton {
     width: 600px;
     font-size: 2em;
-  }
-}
-
-@media only screen and (max-height: 300px) {
-  .container {
-    justify-content: inherit;
   }
 }

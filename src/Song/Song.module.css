@@ -4,6 +4,7 @@
   max-width: 90vw;
   min-height: 150px;
   align-items: center;
+  flex-direction: row;
   padding: 10px;
 }
 .cover {
@@ -79,4 +80,19 @@
 }
 .spotifyIcon:active {
   color: #179242;
+}
+
+@media only screen and (max-width: 600px) {
+  .songContainer {
+    flex-direction: column;
+  }
+  .title {
+    font-size: 1.5em;
+  }
+  .author {
+    font-size: 1em;
+  }
+  .trackLength {
+    font-size: 1.5em;
+  }
 }

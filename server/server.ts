@@ -142,7 +142,7 @@ app.get("/api/getUserData", async (req, res) => {
     currentTrack = JSON.parse(currentTrack).item;
   }
 
-  if (currentTrack.error) {
+  if (!currentTrack || currentTrack.error) {
     return res.send({
       error: true,
       errorMessage: JSON.stringify(currentTrack),
