@@ -130,6 +130,7 @@ class Song extends React.Component<ISongProps, ISongState> {
             <a
               href={`https://www.youtube.com/results?search_query=${this.props.trackAuthor}%20%2D%20${this.props.trackTitle}`}
               target="_blank"
+              rel="noreferrer"
             >
               <FaYoutube
                 className={`${styles.iconButton} ${styles.youTubeIcon}`}
