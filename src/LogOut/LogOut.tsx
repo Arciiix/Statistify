@@ -17,7 +17,6 @@ class LogOut extends React.Component<any, any> {
       //TODO: Log error
     } else {
       window.location.href = "/";
-      window.location.reload();
     }
   }
   render() {

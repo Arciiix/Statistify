@@ -1,7 +1,7 @@
 import React from "react";
-
 import { FaSpotify } from "react-icons/fa";
 import Switch from "react-switch";
+import { Link } from "react-router-dom";
 import homeLoginStyles from "./HomeLogin.module.css";
 import homeStyles from "./Home.module.css";
 import Song from "../Song/Song";
@@ -130,9 +130,11 @@ class Home extends React.Component<any, HomeState> {
               />
             </div>
             <div className={homeStyles.buttonsDiv}>
-              <button className={homeStyles.optionButton}>
-                Top piosenki i artyści
-              </button>
+              <Link to="/topList/setup">
+                <button className={homeStyles.optionButton}>
+                  Top piosenki i artyści
+                </button>
+              </Link>
               <button className={homeStyles.optionButton}>Rekomendacje</button>
               <button className={homeStyles.optionButton}>
                 Export playlisty

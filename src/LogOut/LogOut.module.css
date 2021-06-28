@@ -10,10 +10,21 @@
   padding: 10px;
   transition: color 0.25s;
 }
+
+/*
 .logOutIcon:hover {
   color: #2e69ff;
   cursor: pointer;
 }
 .logOutIcon:active {
   color: #1e4dc4;
+}
+*/
+
+.logOutIcon:hover {
+  color: #0db850;
+  cursor: pointer;
+}
+.logOutIcon:active {
+  color: #0b9241;
 }

@@ -1,0 +1,77 @@
+.container {
+  display: flex;
+  color: white;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+.logoImg {
+  width: 100px;
+  height: 100px;
+}
+.logoText {
+  color: #0db850;
+  background: linear-gradient(
+    90deg,
+    rgba(11, 168, 89, 1) 0%,
+    rgba(7, 124, 65, 1) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 90px;
+  text-align: center;
+}
+@media only screen and (max-width: 350px) {
+  .logoImg {
+    display: none;
+  }
+  .logoText {
+    font-size: 50px;
+  }
+}
+
+@media only screen and (min-width: 351px) {
+  .logoImg {
+    display: none;
+  }
+  .logoText {
+    font-size: 60px;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .logoImg {
+    display: flex;
+    width: 70px;
+    height: 70px;
+  }
+  .logoText {
+    font-size: 60px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .logoImg {
+    display: flex;
+    width: 80px;
+    height: 80px;
+  }
+  .logoText {
+    font-size: 70px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .logoImg {
+    display: flex;
+    width: 100px;
+    height: 100px;
+  }
+  .logoText {
+    font-size: 90px;
+  }
+}
