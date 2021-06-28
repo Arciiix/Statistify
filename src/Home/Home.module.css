@@ -52,6 +52,17 @@
   background-color: #07662d;
 }
 
+.isSpotifyOpenedDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.isSpotifyOpenedLabel {
+  font-size: 20px;
+  margin: 10px;
+  color: white;
+}
+
 @media only screen and (max-width: 600px) {
   .userProfilePicture {
     width: 150px;

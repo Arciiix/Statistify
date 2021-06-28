@@ -1,6 +1,7 @@
 import React from "react";
 
 import { FaSpotify } from "react-icons/fa";
+import Switch from "react-switch";
 import homeLoginStyles from "./HomeLogin.module.css";
 import homeStyles from "./Home.module.css";
 import Song from "../Song/Song";
@@ -12,6 +13,7 @@ interface HomeState {
   userProfilePictureUrl: string;
   username: string;
   currentTrack: Track;
+  isSpotifyOpened: boolean;
 }
 
 interface Track {
@@ -39,6 +41,7 @@ class Home extends React.Component<any, HomeState> {
         lengthMs: 0,
         previewUrl: "",
       },
+      isSpotifyOpened: false,
     };
   }
 
@@ -74,6 +77,8 @@ class Home extends React.Component<any, HomeState> {
         username: userDataResponse.display_name,
         userProfilePictureUrl: userDataResponse.images[0].url,
         currentTrack: currentTrack,
+        isSpotifyOpened:
+          window.localStorage.getItem("isSpotifyOpened") === "true" || false,
       });
     }
   }
@@ -82,6 +87,11 @@ class Home extends React.Component<any, HomeState> {
     //DEV
     //TODO: Change this path
     window.location.href = "http://localhost:8497/api/loginWithSpotify";
+  }
+
+  handleSpotifyOpenedSwitch(e: boolean): void {
+    window.localStorage.setItem("isSpotifyOpened", e.toString());
+    this.setState({ isSpotifyOpened: e });
   }
 
   render() {
@@ -127,6 +137,24 @@ class Home extends React.Component<any, HomeState> {
               <button className={homeStyles.optionButton}>
                 Export playlisty
               </button>
+            </div>
+            <div className={homeStyles.isSpotifyOpenedDiv}>
+              <span className={homeStyles.isSpotifyOpenedLabel}>
+                Spotify jest uruchomiony
+              </span>
+              <Switch
+                checked={this.state.isSpotifyOpened}
+                onChange={this.handleSpotifyOpenedSwitch.bind(this)}
+                onColor="#0db850"
+                onHandleColor="#ffffff"
+                handleDiameter={30}
+                uncheckedIcon={false}
+                checkedIcon={false}
+                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                height={20}
+                width={48}
+              />
             </div>
           </div>
         );
