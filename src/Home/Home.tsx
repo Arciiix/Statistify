@@ -7,7 +7,7 @@ import homeStyles from "./Home.module.css";
 import Song from "../Song/Song";
 import LogOut from "../LogOut/LogOut";
 
-interface HomeState {
+interface IHomeState {
   isLoading: boolean;
   isLogged: boolean;
   userProfilePictureUrl: string;
@@ -25,7 +25,7 @@ interface Track {
   previewUrl?: string;
 }
 
-class Home extends React.Component<any, HomeState> {
+class Home extends React.Component<any, IHomeState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -111,6 +111,7 @@ class Home extends React.Component<any, HomeState> {
                     : process.env.PUBLIC_URL + "/icon/user.png"
                 }
                 className={homeStyles.userProfilePicture}
+                alt=""
               />
               <span className={homeStyles.helloMessage}>
                 Cześć, {this.state.username}
@@ -173,6 +174,7 @@ class Home extends React.Component<any, HomeState> {
               <img
                 src={process.env.PUBLIC_URL + "/icon/icon1024.png"}
                 className={homeLoginStyles.logoImg}
+                alt=""
               />
               <span className={homeLoginStyles.logoText}>Statistify</span>
             </div>
