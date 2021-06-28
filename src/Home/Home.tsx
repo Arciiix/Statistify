@@ -139,7 +139,13 @@ class Home extends React.Component<any, HomeState> {
               </button>
             </div>
             <div className={homeStyles.isSpotifyOpenedDiv}>
-              <span className={homeStyles.isSpotifyOpenedLabel}>
+              <span
+                className={homeStyles.isSpotifyOpenedLabel}
+                onClick={this.handleSpotifyOpenedSwitch.bind(
+                  this,
+                  !this.state.isSpotifyOpened
+                )}
+              >
                 Spotify jest uruchomiony
               </span>
               <Switch

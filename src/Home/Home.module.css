@@ -59,10 +59,14 @@
   justify-content: center;
   flex-direction: row;
 }
+
 .isSpotifyOpenedLabel {
   font-size: 20px;
   margin: 10px;
   color: white;
+}
+.isSpotifyOpenedLabel:hover {
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 350px) {
