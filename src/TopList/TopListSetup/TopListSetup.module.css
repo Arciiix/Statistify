@@ -238,3 +238,10 @@
     display: inline-block;
   }
 }
+@media only screen and (min-height: 800px) {
+  .container {
+    justify-content: center;
+    align-items: center;
+    height: 99vh;
+  }
+}
