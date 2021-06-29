@@ -50,9 +50,10 @@
   width: 200px;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  text-align: center;
+  text-align: right;
+  flex-direction: row;
 }
 .iconButton {
   color: white;
