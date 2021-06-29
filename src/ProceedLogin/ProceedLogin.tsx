@@ -1,5 +1,6 @@
 import React from "react";
 import queryString from "query-string";
+import Loading from "../Loading/Loading";
 
 interface ProceedLoginState {
   error: boolean;
@@ -47,11 +48,7 @@ class ProceedLogin extends React.Component<any, ProceedLoginState> {
 
   render() {
     if (!this.state.error) {
-      return (
-        <div>
-          <h1>TODO: Make the loading page (for example: loading spinner)</h1>
-        </div>
-      );
+      return <Loading />;
     } else {
       return (
         <div>

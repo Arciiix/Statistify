@@ -133,7 +133,7 @@ class TopListSetup extends React.Component<any, ITopListSetupState> {
             <div className={styles.slider}>
               <Slider
                 min={1}
-                max={100}
+                max={50}
                 value={this.state.settings.numberOfResults}
                 onChange={(e) => {
                   let settings: ISettings = this.state.settings;

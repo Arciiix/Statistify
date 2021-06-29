@@ -12,6 +12,8 @@ import Loading from "../Loading/Loading";
 
 interface TopListState {
   isLoading: boolean;
+  resourceType: topResourceType;
+  data: any;
 }
 
 class TopList extends React.Component<any, TopListState> {
@@ -19,12 +21,13 @@ class TopList extends React.Component<any, TopListState> {
     super(props);
     this.state = {
       isLoading: true,
+      resourceType: topResourceType.songs,
+      data: {},
     };
   }
 
   async componentDidMount(): Promise<void> {
     await checkForLoginValidity();
-
     const parsedQueryParams = queryString.parse(this.props.location.search);
 
     let numberOfResults: number | null =
@@ -44,7 +47,7 @@ class TopList extends React.Component<any, TopListState> {
       !resourceType ||
       !timePeriod ||
       numberOfResults < 1 ||
-      numberOfResults > 100
+      numberOfResults > 50
     ) {
       //DEV
       //TODO: Log error
@@ -55,15 +58,34 @@ class TopList extends React.Component<any, TopListState> {
         resourceType: (resourceType as unknown) as topResourceType,
         timePeriod: (timePeriod as unknown) as topTimePeriod,
       };
+      /*
+      DEV - UNCOMMENT THIS!
       await this.getTheTopList(settings);
+      */
+
+      //DEV
+      this.setState({ isLoading: false, resourceType: settings.resourceType });
     }
   }
 
   async getTheTopList(settings: ISettings): Promise<void> {
     let queryParams: string = queryString.stringify(settings);
     let topListRequest = await fetch(`/api/getTopList?${queryParams}`);
+    if (topListRequest.status !== 200) {
+      //DEV
+      //TODO: Log error
+    }
     let topListResponse = await topListRequest.json();
-    console.log(topListResponse);
+    if (topListResponse.error) {
+      //DEV
+      //TODO: Log error
+      return;
+    }
+    this.setState({
+      isLoading: false,
+      resourceType: settings.resourceType,
+      data: topListResponse,
+    });
   }
 
   render() {

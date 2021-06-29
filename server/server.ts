@@ -35,7 +35,7 @@ app.get("/api/loginWithSpotify", (req, res) => {
     redirect_uri: "http://localhost:3000/proceedLogin", //DEV
     show_dialog: "true", //DEV
     //TODO: Use the state parameter - state: "MAKE THIS",
-    scope: "user-read-recently-played user-read-playback-state", //TODO: Add the suitable scopes
+    scope: "user-read-recently-played user-read-playback-state user-top-read", //TODO: Add the suitable scopes
   };
   res.redirect(
     `https://accounts.spotify.com/authorize?${new URLSearchParams(
@@ -114,7 +114,7 @@ app.get("/api/getUserData", async (req, res) => {
   let basicUserInfo = await basicUserInfoReq.json();
 
   if (basicUserInfo.error) {
-    return res.send({
+    return res.status(500).send({
       error: true,
       errorMessage: JSON.stringify(basicUserInfo),
     });
@@ -142,7 +142,7 @@ app.get("/api/getUserData", async (req, res) => {
   }
 
   if (!currentTrack || currentTrack.error) {
-    return res.send({
+    return res.status(500).send({
       error: true,
       errorMessage: JSON.stringify(currentTrack),
     });
@@ -161,8 +161,9 @@ app.delete("/api/logOut", (req, res) => {
   res.send({ error: false });
 });
 
-app.get("/api/getTopList", (req, res) => {
-  console.log(req.query);
+app.get("/api/getTopList", async (req, res) => {
+  let tokenValidation = await validateJWTToken(req.cookies.token);
+  if (tokenValidation.error) return res.send(tokenValidation);
 
   let numberOfResults: number | null = parseInt(
     req.query.numberOfResults as string
@@ -176,7 +177,7 @@ app.get("/api/getTopList", (req, res) => {
       .send({ error: true, errorMessage: "MISSING_PARAMS" });
   }
 
-  if (numberOfResults < 1 || numberOfResults > 100) {
+  if (numberOfResults < 1 || numberOfResults > 50) {
     return res
       .status(400)
       .send({ error: true, errorMessage: "WRONG_NUMBEROFRESULTS" });
@@ -198,7 +199,53 @@ app.get("/api/getTopList", (req, res) => {
       .send({ error: true, errorMessage: "WRONG_TIMEPERIOD" });
   }
 
-  res.send({ err: false });
+  let timeRange: string = "";
+
+  switch (timePeriod) {
+    case "oneMonth":
+      timeRange = "short_term";
+      break;
+    case "sixMonths":
+      timeRange = "medium_term";
+      break;
+    case "all":
+      timeRange = "long_term";
+      break;
+    default:
+      timeRange = "short_term";
+  }
+
+  let topListSettings: any = {
+    time_range: timeRange,
+    limit: numberOfResults,
+  };
+
+  //Get the user top list
+  let userTopListRequest = await fetch(
+    `https://api.spotify.com/v1/me/top/${
+      resourceType === "artists" ? "artists" : "tracks"
+    }?${new URLSearchParams(topListSettings)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${tokenValidation.payload.token}`,
+      },
+    }
+  );
+  console.log(userTopListRequest.status);
+
+  let userTopListResponse = await userTopListRequest.json();
+
+  if (!userTopListResponse || userTopListResponse.error) {
+    return res.status(500).send({
+      error: true,
+      errorMessage: JSON.stringify(userTopListResponse) || "UNKNOWN",
+    });
+  }
+  res.send({
+    error: false,
+    data: userTopListResponse.items,
+    resourceType: resourceType,
+  });
 });
 
 app.all("/api/*", (req, res) =>
