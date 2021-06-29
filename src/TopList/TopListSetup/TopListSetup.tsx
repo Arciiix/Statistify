@@ -58,7 +58,7 @@ class TopListSetup extends React.Component<any, ITopListSetupState> {
             src={process.env.PUBLIC_URL + "/icon/icon1024.png"}
             className={styles.logoImg}
           />
-          <span className={styles.logoText}>Top lista</span>
+          <span className={styles.logoText}>Top Lista</span>
         </div>
         <div className={styles.settings}>
           <div className={styles.singleOption}>
@@ -165,7 +165,9 @@ class TopListSetup extends React.Component<any, ITopListSetupState> {
               </span>
             </div>
           </div>
-          <button className={styles.submit}>Sprawdź swój ranking</button>
+          <button className={styles.submit}>
+            Sprawdź <span className={styles.submitFullText}>swój ranking</span>
+          </button>
         </div>
       </div>
     );

@@ -43,6 +43,7 @@
   color: white;
   font-size: 3em;
   margin: 5px;
+  text-align: center;
 }
 .optionButtons {
   display: flex;
@@ -91,6 +92,7 @@
 }
 .submit {
   background-color: #0db850;
+  margin: 10px;
   border: none;
   color: white;
   width: 75%;
@@ -106,6 +108,9 @@
 .submit:active {
   background-color: #07662d;
 }
+.submitFullText {
+  display: inline-block;
+}
 
 @media only screen and (max-width: 350px) {
   .logoImg {
@@ -113,6 +118,22 @@
   }
   .logoText {
     font-size: 50px;
+    margin-top: 50px;
+  }
+  .optionButtons {
+    flex-direction: column;
+  }
+  .optionLabel {
+    font-size: 1.8em;
+  }
+  .optionBtn {
+    width: 250px;
+  }
+  .submit {
+    font-size: 2.5em;
+  }
+  .submitFullText {
+    display: none;
   }
 }
 
@@ -121,7 +142,22 @@
     display: none;
   }
   .logoText {
-    font-size: 60px;
+    font-size: 55px;
+  }
+  .optionButtons {
+    flex-direction: column;
+  }
+  .optionLabel {
+    font-size: 1.8em;
+  }
+  .optionBtn {
+    width: 300px;
+  }
+  .submit {
+    font-size: 2.5em;
+  }
+  .submitFullText {
+    display: none;
   }
 }
 
@@ -134,6 +170,21 @@
   .logoText {
     font-size: 60px;
   }
+  .optionButtons {
+    flex-direction: column;
+  }
+  .optionLabel {
+    font-size: 1.8em;
+  }
+  .optionBtn {
+    width: 500px;
+  }
+  .submit {
+    font-size: 2.5em;
+  }
+  .submitFullText {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 768px) {
@@ -145,6 +196,21 @@
   .logoText {
     font-size: 70px;
   }
+  .optionButtons {
+    flex-direction: column;
+  }
+  .optionLabel {
+    font-size: 1.8em;
+  }
+  .optionBtn {
+    width: 500px;
+  }
+  .submit {
+    font-size: 2.5em;
+  }
+  .submitFullText {
+    display: inline-block;
+  }
 }
 
 @media only screen and (min-width: 1200px) {
@@ -155,5 +221,20 @@
   }
   .logoText {
     font-size: 90px;
+  }
+  .optionButtons {
+    flex-direction: row;
+  }
+  .optionLabel {
+    font-size: 3em;
+  }
+  .optionBtn {
+    width: 400px;
+  }
+  .submit {
+    font-size: 2.5em;
+  }
+  .submitFullText {
+    display: inline-block;
   }
 }
