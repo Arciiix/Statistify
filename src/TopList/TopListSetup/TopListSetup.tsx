@@ -1,6 +1,7 @@
 import React from "react";
 import LogOut from "../../LogOut/LogOut";
 import Slider from "rc-slider";
+import { checkForLoginValidity } from "../../Account";
 
 import styles from "./TopListSetup.module.css";
 import "rc-slider/assets/index.css";
@@ -38,15 +39,7 @@ class TopListSetup extends React.Component<any, ITopListSetupState> {
     };
   }
   async componentDidMount(): Promise<void> {
-    //TODO: Think about moving this function to another file (DRY)
-    let userAuthRequest = await fetch("/api/getUserData");
-    let userAuthResponse = await userAuthRequest.json();
-
-    if (userAuthResponse.error) {
-      if (userAuthResponse.errorMessage == "INVALID_TOKEN") {
-        window.location.href = "/";
-      }
-    }
+    await checkForLoginValidity();
   }
 
   render() {
