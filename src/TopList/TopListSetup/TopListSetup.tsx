@@ -2,26 +2,13 @@ import React from "react";
 import LogOut from "../../LogOut/LogOut";
 import Slider from "rc-slider";
 import { checkForLoginValidity } from "../../Account";
+import queryString from "query-string";
 
 import styles from "./TopListSetup.module.css";
 import "rc-slider/assets/index.css";
 
-enum topResourceType {
-  songs,
-  artists,
-}
-
-enum topTimePeriod {
-  oneMonth,
-  sixMonths,
-  all,
-}
-
-interface ISettings {
-  resourceType: topResourceType;
-  timePeriod: topTimePeriod;
-  numberOfResults: number;
-}
+import { topResourceType, topTimePeriod } from "../TopListTypes";
+import type { ISettings } from "../TopListTypes";
 
 interface ITopListSetupState {
   settings: ISettings;
@@ -40,6 +27,12 @@ class TopListSetup extends React.Component<any, ITopListSetupState> {
   }
   async componentDidMount(): Promise<void> {
     await checkForLoginValidity();
+  }
+
+  generateTopList() {
+    let queryParams: string = queryString.stringify(this.state.settings);
+    let url = `/topList?${queryParams}`;
+    window.location.href = url;
   }
 
   render() {
@@ -158,7 +151,10 @@ class TopListSetup extends React.Component<any, ITopListSetupState> {
               </span>
             </div>
           </div>
-          <button className={styles.submit}>
+          <button
+            className={styles.submit}
+            onClick={this.generateTopList.bind(this)}
+          >
             Sprawdź <span className={styles.submitFullText}>swój ranking</span>
           </button>
         </div>

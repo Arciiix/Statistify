@@ -6,6 +6,7 @@ import homeLoginStyles from "./HomeLogin.module.css";
 import homeStyles from "./Home.module.css";
 import Song from "../Song/Song";
 import LogOut from "../LogOut/LogOut";
+import Loading from "../Loading/Loading";
 
 interface IHomeState {
   isLoading: boolean;
@@ -96,8 +97,7 @@ class Home extends React.Component<any, IHomeState> {
 
   render() {
     if (this.state.isLoading) {
-      //TODO: Create the loading page
-      return <h1 style={{ color: "white" }}>Loading...</h1>;
+      return <Loading />;
     } else {
       if (this.state.isLogged) {
         return (

@@ -14,7 +14,6 @@ const PORT: number | string = process.env.PORT || 8497;
  */
 
 import constants from "./secret";
-import { Console } from "console";
 
 const app = express();
 
@@ -160,6 +159,46 @@ app.delete("/api/logOut", (req, res) => {
 
   res.clearCookie("token");
   res.send({ error: false });
+});
+
+app.get("/api/getTopList", (req, res) => {
+  console.log(req.query);
+
+  let numberOfResults: number | null = parseInt(
+    req.query.numberOfResults as string
+  );
+  let resourceType: string | null = req.query.resourceType as string;
+  let timePeriod: string | null = req.query.timePeriod as string;
+
+  if (!numberOfResults || !resourceType || !timePeriod) {
+    return res
+      .status(400)
+      .send({ error: true, errorMessage: "MISSING_PARAMS" });
+  }
+
+  if (numberOfResults < 1 || numberOfResults > 100) {
+    return res
+      .status(400)
+      .send({ error: true, errorMessage: "WRONG_NUMBEROFRESULTS" });
+  }
+
+  if (resourceType !== "artists" && resourceType !== "songs") {
+    return res
+      .status(400)
+      .send({ error: true, errorMessage: "WRONG_RESOURCETYPE" });
+  }
+
+  if (
+    timePeriod !== "oneMonth" &&
+    timePeriod !== "sixMonths" &&
+    timePeriod !== "all"
+  ) {
+    return res
+      .status(400)
+      .send({ error: true, errorMessage: "WRONG_TIMEPERIOD" });
+  }
+
+  res.send({ err: false });
 });
 
 app.all("/api/*", (req, res) =>
