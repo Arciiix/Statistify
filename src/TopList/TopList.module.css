@@ -24,5 +24,14 @@
 .index {
   color: white;
   font-size: 6em;
-  margin: 10px;
+  width: 150px;
+  text-align: center;
 }
+.songComponent {
+  width: 50vw;
+}
+.songComponentTrackInfo {
+  min-width: 40vw;
+}
+
+/* TODO: Make it responsive */

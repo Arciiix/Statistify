@@ -18,6 +18,8 @@ interface ISongProps {
   showSpotifyButton?: boolean;
   trackInfoWidth?: string | number;
   previewUrl?: string;
+  additionalContainerClassName?: string;
+  additionalTrackInfoClassName?: string;
 }
 
 interface ISongState {
@@ -92,7 +94,11 @@ class Song extends React.Component<ISongProps, ISongState> {
   render() {
     return (
       <div
-        className={styles.songContainer}
+        className={`${styles.songContainer}${
+          this.props.additionalContainerClassName
+            ? ` ${this.props.additionalContainerClassName}`
+            : ""
+        }`}
         style={{
           backgroundColor: this.state.backgroundColor,
         }}
@@ -108,7 +114,11 @@ class Song extends React.Component<ISongProps, ISongState> {
           </div>
         )}
         <div
-          className={styles.trackInfo}
+          className={`${styles.trackInfo}${
+            this.props.additionalTrackInfoClassName
+              ? ` ${this.props.additionalTrackInfoClassName}`
+              : ""
+          }`}
           style={{ width: this.props.trackInfoWidth || "auto" }}
         >
           <div className={styles.titleAndAuthor}>

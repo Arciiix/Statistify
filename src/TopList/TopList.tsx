@@ -131,6 +131,7 @@ class TopList extends React.Component<any, ITopListState> {
     } else {
       return (
         <div className={styles.container}>
+          <LogOut />
           <span className={styles.header}>
             Oto Twoje Top {this.state.numberOfResults}{" "}
             {((this.state.resourceType as unknown) as string) == "artists"
@@ -154,6 +155,8 @@ class TopList extends React.Component<any, ITopListState> {
                       showPlayButton={true}
                       showYouTubeButton={true}
                       showSpotifyButton={true}
+                      additionalContainerClassName={`${styles.songComponent}`}
+                      additionalTrackInfoClassName={`${styles.songComponentTrackInfo}`}
                     />
                   </div>
                 );
