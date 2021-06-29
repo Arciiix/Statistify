@@ -1,3 +1,9 @@
 .container {
   display: flex;
 }
+.header {
+  color: white;
+  font-size: 5em;
+  text-align: center;
+  width: 100%;
+}

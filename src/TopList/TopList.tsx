@@ -13,6 +13,7 @@ import Loading from "../Loading/Loading";
 interface TopListState {
   isLoading: boolean;
   resourceType: topResourceType;
+  numberOfResults: number;
   data: any;
 }
 
@@ -22,6 +23,7 @@ class TopList extends React.Component<any, TopListState> {
     this.state = {
       isLoading: true,
       resourceType: topResourceType.songs,
+      numberOfResults: 0,
       data: {},
     };
   }
@@ -64,7 +66,11 @@ class TopList extends React.Component<any, TopListState> {
       */
 
       //DEV
-      this.setState({ isLoading: false, resourceType: settings.resourceType });
+      this.setState({
+        isLoading: false,
+        resourceType: settings.resourceType as topResourceType,
+        numberOfResults: settings.numberOfResults,
+      });
     }
   }
 
@@ -83,7 +89,8 @@ class TopList extends React.Component<any, TopListState> {
     }
     this.setState({
       isLoading: false,
-      resourceType: settings.resourceType,
+      resourceType: settings.resourceType as topResourceType,
+      numberOfResults: settings.numberOfResults,
       data: topListResponse,
     });
   }
@@ -92,7 +99,16 @@ class TopList extends React.Component<any, TopListState> {
     if (this.state.isLoading) {
       return <Loading />;
     } else {
-      return <div className={styles.container}></div>;
+      return (
+        <div className={styles.container}>
+          <span className={styles.header}>
+            Oto Twoje Top {this.state.numberOfResults}{" "}
+            {((this.state.resourceType as unknown) as string) == "artists"
+              ? "Artystów"
+              : "Piosenek"}
+          </span>
+        </div>
+      );
     }
   }
 }
