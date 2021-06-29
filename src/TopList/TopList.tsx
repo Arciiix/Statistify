@@ -9,22 +9,33 @@ import { topResourceType, topTimePeriod } from "./TopListTypes";
 import type { ISettings } from "./TopListTypes";
 
 import Loading from "../Loading/Loading";
+import Song from "../Song/Song";
 
-interface TopListState {
+interface ITopListState {
   isLoading: boolean;
   resourceType: topResourceType;
   numberOfResults: number;
-  data: any;
+  data: Array<ITopTrack> | any;
 }
 
-class TopList extends React.Component<any, TopListState> {
+interface ITopTrack {
+  title: string;
+  author: string;
+  album: string;
+  coverURL: string;
+  lengthMs: number;
+  previewUrl: string;
+  index: number;
+}
+
+class TopList extends React.Component<any, ITopListState> {
   constructor(props: any) {
     super(props);
     this.state = {
       isLoading: true,
       resourceType: topResourceType.songs,
       numberOfResults: 0,
-      data: {},
+      data: [],
     };
   }
 
@@ -60,21 +71,44 @@ class TopList extends React.Component<any, TopListState> {
         resourceType: (resourceType as unknown) as topResourceType,
         timePeriod: (timePeriod as unknown) as topTimePeriod,
       };
-      /*
-      DEV - UNCOMMENT THIS!
-      await this.getTheTopList(settings);
-      */
 
-      //DEV
+      let topList = await this.getTheTopList(settings);
+
+      let data: Array<ITopTrack> | any = [];
+
+      if (((settings.resourceType as unknown) as string) === "songs") {
+        let tracks: Array<any> = topList.data;
+
+        let serializedTracks: Array<ITopTrack> = [];
+
+        tracks.forEach((elem, index) => {
+          let authors = elem.artists.map((e: any) => e.name);
+
+          let track: ITopTrack = {
+            title: elem.name,
+            author: authors.join(", "),
+            album: elem.album.name,
+            coverURL: elem.album.images[0].url,
+            lengthMs: elem.duration_ms,
+            previewUrl: elem.preview_url,
+            index: index,
+          };
+
+          serializedTracks.push(track);
+        });
+        data = serializedTracks;
+      }
+
       this.setState({
         isLoading: false,
         resourceType: settings.resourceType as topResourceType,
         numberOfResults: settings.numberOfResults,
+        data: data,
       });
     }
   }
 
-  async getTheTopList(settings: ISettings): Promise<void> {
+  async getTheTopList(settings: ISettings): Promise<any> {
     let queryParams: string = queryString.stringify(settings);
     let topListRequest = await fetch(`/api/getTopList?${queryParams}`);
     if (topListRequest.status !== 200) {
@@ -87,12 +121,8 @@ class TopList extends React.Component<any, TopListState> {
       //TODO: Log error
       return;
     }
-    this.setState({
-      isLoading: false,
-      resourceType: settings.resourceType as topResourceType,
-      numberOfResults: settings.numberOfResults,
-      data: topListResponse,
-    });
+
+    return topListResponse;
   }
 
   render() {
@@ -107,6 +137,31 @@ class TopList extends React.Component<any, TopListState> {
               ? "Artystów"
               : "Piosenek"}
           </span>
+          <div className={styles.elements}>
+            {((this.state.resourceType as unknown) as string) === "songs" &&
+              this.state.data.map((e: ITopTrack) => {
+                return (
+                  <div className={styles.song}>
+                    <span className={styles.index}>{e.index + 1}</span>
+                    <Song
+                      trackTitle={e.title}
+                      trackAuthor={e.author}
+                      trackAlbum={e.album}
+                      trackLengthMs={e.lengthMs}
+                      showCover={true}
+                      coverImageURL={e.coverURL}
+                      previewUrl={e.previewUrl}
+                      showPlayButton={true}
+                      showYouTubeButton={true}
+                      showSpotifyButton={true}
+                    />
+                  </div>
+                );
+              })}
+            {((this.state.resourceType as unknown) as string) === "artists" && (
+              <h1>artists!</h1>
+            )}
+          </div>
         </div>
       );
     }

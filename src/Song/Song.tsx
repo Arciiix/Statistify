@@ -17,6 +17,7 @@ interface ISongProps {
   showYouTubeButton?: boolean;
   showSpotifyButton?: boolean;
   trackInfoWidth?: string | number;
+  previewUrl?: string;
 }
 
 interface ISongState {

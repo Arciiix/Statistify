@@ -1,9 +1,28 @@
 .container {
   display: flex;
+  flex-direction: column;
 }
 .header {
   color: white;
   font-size: 5em;
   text-align: center;
   width: 100%;
+}
+.elements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.song {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
+
+.index {
+  color: white;
+  font-size: 6em;
+  margin: 10px;
 }

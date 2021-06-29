@@ -128,17 +128,16 @@ app.get("/api/getUserData", async (req, res) => {
   let currentTrack: any = await currentTrackReq.text();
 
   if (currentTrack == "") {
-    let currentTrackAnotherRes = await fetch(
-      `https://api.spotify.com/v1/me/player/recently-played?limit=1`,
-      {
-        headers: {
-          Authorization: `Bearer ${tokenValidation.payload.token}`,
-        },
-      }
+    currentTrack = await getCurrentTrackFromLatestPlayed(
+      tokenValidation.payload.token
     );
-    currentTrack = await (await currentTrackAnotherRes.json()).items[0].track;
   } else {
-    currentTrack = JSON.parse(currentTrack).item;
+    currentTrack = JSON.parse(currentTrack).item || null;
+    if (!currentTrack) {
+      currentTrack = await getCurrentTrackFromLatestPlayed(
+        tokenValidation.payload.token
+      );
+    }
   }
 
   if (!currentTrack || currentTrack.error) {
@@ -274,6 +273,18 @@ async function validateJWTToken(
   });
 
   return jwtVerify;
+}
+
+async function getCurrentTrackFromLatestPlayed(token: string): Promise<any> {
+  let currentTrackAnotherRes = await fetch(
+    `https://api.spotify.com/v1/me/player/recently-played?limit=1`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return await (await currentTrackAnotherRes.json()).items[0].track;
 }
 
 function log(message: string, isError?: boolean): void {
