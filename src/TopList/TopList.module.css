@@ -34,4 +34,76 @@
   min-width: 40vw;
 }
 
-/* TODO: Make it responsive */
+@media only screen and (max-width: 350px) {
+  .song {
+    flex-direction: column;
+  }
+  .header {
+    font-size: 3em;
+    margin-top: 60px;
+  }
+  .songComponent {
+    width: 80vw;
+  }
+}
+
+@media only screen and (min-width: 351px) {
+  .song {
+    flex-direction: column;
+  }
+  .header {
+    font-size: 4em;
+    margin-top: 60px;
+  }
+  .songComponent {
+    width: 80vw;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .song {
+    flex-direction: column;
+  }
+  .header {
+    font-size: 4em;
+  }
+  .songComponent {
+    width: 40vw;
+  }
+  .songComponentTrackInfo {
+    min-width: 30vw;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .song {
+    flex-direction: row;
+  }
+  .header {
+    font-size: 4.5em;
+    margin-top: 60px;
+    margin-right: 20px;
+  }
+  .songComponent {
+    width: 40vw;
+  }
+  .songComponentTrackInfo {
+    min-width: 30vw;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .song {
+    flex-direction: row;
+  }
+  .header {
+    font-size: 5em;
+    margin-top: 0px;
+  }
+  .songComponent {
+    width: 55vw;
+  }
+  .songComponentTrackInfo {
+    min-width: 45vw;
+  }
+}
