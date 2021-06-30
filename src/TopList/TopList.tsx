@@ -133,7 +133,7 @@ class TopList extends React.Component<any, ITopListState> {
         <div className={styles.container}>
           <LogOut />
           <span className={styles.header}>
-            Twoje Top {this.state.numberOfResults}{" "}
+            Oto Twoje Top {this.state.numberOfResults}{" "}
             {((this.state.resourceType as unknown) as string) == "artists"
               ? "Artystów"
               : "Piosenek"}
