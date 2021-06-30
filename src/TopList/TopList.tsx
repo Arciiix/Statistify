@@ -19,6 +19,7 @@ interface ITopListState {
 }
 
 interface ITopTrack {
+  id: string;
   title: string;
   author: string;
   album: string;
@@ -85,6 +86,7 @@ class TopList extends React.Component<any, ITopListState> {
           let authors = elem.artists.map((e: any) => e.name);
 
           let track: ITopTrack = {
+            id: elem.id,
             title: elem.name,
             author: authors.join(", "),
             album: elem.album.name,
@@ -145,6 +147,8 @@ class TopList extends React.Component<any, ITopListState> {
                   <div className={styles.song}>
                     <span className={styles.index}>{e.index + 1}</span>
                     <Song
+                      key={e.index}
+                      trackId={e.id}
                       trackTitle={e.title}
                       trackAuthor={e.author}
                       trackAlbum={e.album}

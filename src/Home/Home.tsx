@@ -18,6 +18,7 @@ interface IHomeState {
 }
 
 interface Track {
+  id: string;
   title: string;
   author: string;
   album: string;
@@ -35,6 +36,7 @@ class Home extends React.Component<any, IHomeState> {
       userProfilePictureUrl: "",
       username: "",
       currentTrack: {
+        id: "",
         title: "",
         author: "",
         album: "",
@@ -64,6 +66,7 @@ class Home extends React.Component<any, IHomeState> {
       );
 
       let currentTrack: Track = {
+        id: userDataResponse.currentlyPlaying.id,
         title: userDataResponse.currentlyPlaying.name,
         author: authors.join(", "),
         album: userDataResponse.currentlyPlaying.album.name,
@@ -119,6 +122,7 @@ class Home extends React.Component<any, IHomeState> {
               {/*DEV*/}
 
               <Song
+                trackId={this.state.currentTrack.id}
                 trackTitle={this.state.currentTrack.title}
                 trackAuthor={this.state.currentTrack.author}
                 trackAlbum={this.state.currentTrack.album}

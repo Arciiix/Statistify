@@ -7,6 +7,7 @@ import { FaSpotify, FaYoutube, FaPlay } from "react-icons/fa";
 import styles from "./Song.module.css";
 
 interface ISongProps {
+  trackId: string;
   trackTitle: string;
   trackAuthor: string;
   trackAlbum?: string;
@@ -39,6 +40,7 @@ class Song extends React.Component<ISongProps, ISongState> {
   }
 
   static defaultProps = {
+    trackId: "",
     trackTitle: "Tytuł piosenki",
     trackAuthor: "Autor",
     trackLengthMs: 0,
