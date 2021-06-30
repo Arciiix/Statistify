@@ -1,4 +1,4 @@
-.songContainer {
+.artistContainer {
   display: flex;
   min-width: min-content;
   max-width: 90vw;
@@ -17,35 +17,18 @@
   width: 140px;
   height: 140px;
 }
-.trackInfo {
+.artistName {
   height: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-right: 5px;
+  margin-left: 5px;
 }
-.titleAndAuthor {
-  min-height: 50%;
-  height: min-content;
-  display: flex;
-  flex-direction: column;
+
+.artistNameText {
   color: white;
-}
-.title {
-  font-size: 2em;
-}
-.author {
-  font-size: 1.2em;
-}
-.trackLength {
-  height: 50px;
-  color: white;
-  display: flex;
+  font-size: 3em;
   text-align: left;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 1.52em;
 }
+
 .playButtons {
   width: 200px;
   height: 100%;
@@ -61,12 +44,6 @@
   margin: 10px;
   transition: 0.25s;
   cursor: pointer;
-}
-.playIcon:hover {
-  color: #2e69ff;
-}
-.playIcon:active {
-  color: #1e4dc4;
 }
 
 .youTubeIcon:hover {
@@ -84,22 +61,13 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .songContainer {
+  .artistContainer {
     flex-direction: column;
   }
-  .title {
-    font-size: 1.5em;
-  }
-  .author {
-    font-size: 1em;
+  .artistNameText {
+    font-size: 2em;
   }
   .playButtons {
     justify-content: center;
-  }
-  .trackLength {
-    font-size: 1.5em;
-    justify-content: center;
-    align-items: center;
-    align-items: center;
   }
 }

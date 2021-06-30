@@ -10,6 +10,7 @@ import type { ISettings } from "./TopListTypes";
 
 import Loading from "../Loading/Loading";
 import Song from "../Song/Song";
+import Artist from "../Artist/Artist";
 
 interface ITopListState {
   isLoading: boolean;
@@ -26,6 +27,13 @@ interface ITopTrack {
   coverURL: string;
   lengthMs: number;
   previewUrl: string;
+  index: number;
+}
+
+interface ITopArtist {
+  id: string;
+  name: string;
+  coverURL: string;
   index: number;
 }
 
@@ -75,7 +83,7 @@ class TopList extends React.Component<any, ITopListState> {
 
       let topList = await this.getTheTopList(settings);
 
-      let data: Array<ITopTrack> | any = [];
+      let data: Array<ITopTrack> | Array<ITopArtist> = [];
 
       if (((settings.resourceType as unknown) as string) === "songs") {
         let tracks: Array<any> = topList.data;
@@ -99,6 +107,22 @@ class TopList extends React.Component<any, ITopListState> {
           serializedTracks.push(track);
         });
         data = serializedTracks;
+      } else {
+        let artists: Array<any> = topList.data;
+        let serializedArtists: Array<ITopArtist> = [];
+
+        artists.forEach((elem, index) => {
+          let artist: ITopArtist = {
+            id: elem.id,
+            name: elem.name,
+            coverURL: elem.images[0].url,
+            index: index,
+          };
+
+          serializedArtists.push(artist);
+        });
+
+        data = serializedArtists;
       }
 
       this.setState({
@@ -127,6 +151,10 @@ class TopList extends React.Component<any, ITopListState> {
     return topListResponse;
   }
 
+  onceAgain() {
+    window.location.href = "/topList/setup";
+  }
+
   render() {
     if (this.state.isLoading) {
       return <Loading />;
@@ -144,7 +172,7 @@ class TopList extends React.Component<any, ITopListState> {
             {((this.state.resourceType as unknown) as string) === "songs" &&
               this.state.data.map((e: ITopTrack) => {
                 return (
-                  <div className={styles.song}>
+                  <div className={styles.topListElement}>
                     <span className={styles.index}>{e.index + 1}</span>
                     <Song
                       key={e.index}
@@ -165,9 +193,29 @@ class TopList extends React.Component<any, ITopListState> {
                   </div>
                 );
               })}
-            {((this.state.resourceType as unknown) as string) === "artists" && (
-              <h1>artists!</h1>
-            )}
+            {((this.state.resourceType as unknown) as string) === "artists" &&
+              this.state.data.map((e: ITopArtist) => {
+                return (
+                  <div className={styles.topListElement}>
+                    <span className={styles.index}>{e.index + 1}</span>
+                    <Artist
+                      artistId={e.id}
+                      artistName={e.name}
+                      showCover={true}
+                      coverImageURL={e.coverURL}
+                      additionalContainerClassName={`${styles.artistComponent}`}
+                      additionalArtistNameClassName={`${styles.artistComponentArtistName}`}
+                      showSpotifyButton
+                      showYouTubeButton
+                    />
+                  </div>
+                );
+              })}
+          </div>
+          <div className={styles.onceAgain}>
+            <button className={styles.onceAgainButton} onClick={this.onceAgain}>
+              <span className={styles.onceAgainButtonText}>Jeszcze raz</span>
+            </button>
           </div>
         </div>
       );

@@ -13,7 +13,7 @@
   flex-direction: column;
   align-items: center;
 }
-.song {
+.topListElement {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -30,12 +30,48 @@
 .songComponent {
   width: 50vw;
 }
+.artistComponent {
+  width: 50vw;
+}
+.artistComponentArtistName {
+  min-width: 40vw;
+}
+
 .songComponentTrackInfo {
   min-width: 40vw;
 }
 
+.onceAgain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.onceAgainButton {
+  background-color: #0db850;
+  margin: 30px;
+  border: none;
+  color: white;
+  width: 40%;
+  height: 80px;
+  font-size: 3em;
+  border-radius: 5px;
+  transition: background-color 0.25s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.onceAgainButton:hover {
+  cursor: pointer;
+  background-color: #0b9241;
+}
+.onceAgainButton:active {
+  background-color: #07662d;
+}
+
 @media only screen and (max-width: 350px) {
-  .song {
+  .topListElement {
     flex-direction: column;
   }
   .header {
@@ -45,10 +81,16 @@
   .songComponent {
     width: 80vw;
   }
+  .onceAgainButton {
+    width: 80%;
+  }
+  .onceAgainButtonText {
+    font-size: 0.6em;
+  }
 }
 
 @media only screen and (min-width: 351px) {
-  .song {
+  .topListElement {
     flex-direction: column;
   }
   .header {
@@ -58,10 +100,16 @@
   .songComponent {
     width: 80vw;
   }
+  .onceAgainButton {
+    width: 80%;
+  }
+  .onceAgainButtonText {
+    font-size: 1em;
+  }
 }
 
 @media only screen and (min-width: 600px) {
-  .song {
+  .topListElement {
     flex-direction: column;
   }
   .header {
@@ -73,10 +121,16 @@
   .songComponentTrackInfo {
     min-width: 30vw;
   }
+  .onceAgainButton {
+    width: 80%;
+  }
+  .onceAgainButtonText {
+    font-size: 1em;
+  }
 }
 
 @media only screen and (min-width: 768px) {
-  .song {
+  .topListElement {
     flex-direction: row;
   }
   .header {
@@ -90,10 +144,16 @@
   .songComponentTrackInfo {
     min-width: 30vw;
   }
+  .onceAgainButton {
+    width: 50%;
+  }
+  .onceAgainButtonText {
+    font-size: 1em;
+  }
 }
 
 @media only screen and (min-width: 1200px) {
-  .song {
+  .topListElement {
     flex-direction: row;
   }
   .header {
@@ -105,5 +165,8 @@
   }
   .songComponentTrackInfo {
     min-width: 45vw;
+  }
+  .onceAgainButton {
+    width: 40%;
   }
 }

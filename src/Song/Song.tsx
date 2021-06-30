@@ -1,8 +1,7 @@
 import React from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import FastAverageColor from "fast-average-color";
-
 import { FaSpotify, FaYoutube, FaPlay } from "react-icons/fa";
+import { getBackgroundColor } from "../BackgroundColor";
 
 import styles from "./Song.module.css";
 
@@ -27,8 +26,6 @@ interface ISongState {
   trackLengthText: string;
   backgroundColor: string;
 }
-
-const FastAverageColorInstance = new FastAverageColor();
 
 class Song extends React.Component<ISongProps, ISongState> {
   constructor(props: ISongProps) {
@@ -68,29 +65,8 @@ class Song extends React.Component<ISongProps, ISongState> {
   }
 
   async setBackgroundColor(): Promise<void> {
-    let color = await FastAverageColorInstance.getColorAsync(
-      this.props.coverImageURL as string
-    );
-    this.setState({ backgroundColor: this.darkenColor(color.hex, 40) });
-  }
-
-  darkenColor(color: string, percent: number): string {
-    let colorObject: any = {
-      red: parseInt(color.slice(1, 3), 16),
-      green: parseInt(color.slice(3, 5), 16),
-      blue: parseInt(color.slice(5, 7), 16),
-    };
-
-    for (let key of Object.keys(colorObject)) {
-      colorObject[key] = Math.floor((colorObject[key] * (100 - percent)) / 100);
-      colorObject[key] = colorObject[key] < 255 ? colorObject[key] : 255;
-      colorObject[key] =
-        colorObject[key].toString(16).length == 1
-          ? `0${colorObject[key].toString(16)}`
-          : colorObject[key].toString(16);
-    }
-
-    return `#${colorObject.red}${colorObject.green}${colorObject.blue}`;
+    let color = await getBackgroundColor(this.props.coverImageURL as string);
+    this.setState({ backgroundColor: color });
   }
 
   render() {
