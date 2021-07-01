@@ -17,6 +17,7 @@ interface ITopListState {
   resourceType: topResourceType;
   numberOfResults: number;
   data: Array<ITopTrack> | any;
+  isSpotifyOpened: boolean;
 }
 
 interface ITopTrack {
@@ -45,6 +46,7 @@ class TopList extends React.Component<any, ITopListState> {
       resourceType: topResourceType.songs,
       numberOfResults: 0,
       data: [],
+      isSpotifyOpened: false,
     };
   }
 
@@ -130,6 +132,8 @@ class TopList extends React.Component<any, ITopListState> {
         resourceType: settings.resourceType as topResourceType,
         numberOfResults: settings.numberOfResults,
         data: data,
+        isSpotifyOpened:
+          window.sessionStorage.getItem("isSpotifyOpened") === "true" || false,
       });
     }
   }
@@ -189,6 +193,7 @@ class TopList extends React.Component<any, ITopListState> {
                       showSpotifyButton={true}
                       additionalContainerClassName={`${styles.songComponent}`}
                       additionalTrackInfoClassName={`${styles.songComponentTrackInfo}`}
+                      isSpotifyOpened={this.state.isSpotifyOpened}
                     />
                   </div>
                 );

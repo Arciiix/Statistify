@@ -20,6 +20,7 @@ interface ISongProps {
   previewUrl?: string;
   additionalContainerClassName?: string;
   additionalTrackInfoClassName?: string;
+  isSpotifyOpened?: boolean;
 }
 
 interface ISongState {
@@ -127,12 +128,22 @@ class Song extends React.Component<ISongProps, ISongState> {
             </a>
           )}
           {this.props.showSpotifyButton && (
-            <FaSpotify
-              className={`${styles.iconButton} ${styles.spotifyIcon}`}
-              onClick={
-                () => null /*DEV TODO: Make the Spotify play button work*/
+            <a
+              href={
+                this.props.isSpotifyOpened
+                  ? `spotify:track:${this.props.trackId}`
+                  : `https://open.spotify.com/track/${this.props.trackId}`
               }
-            />
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaSpotify
+                className={`${styles.iconButton} ${styles.spotifyIcon}`}
+                onClick={
+                  () => null /*DEV TODO: Make the Spotify play button work*/
+                }
+              />
+            </a>
           )}
         </div>
       </div>

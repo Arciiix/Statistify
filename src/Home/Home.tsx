@@ -132,6 +132,7 @@ class Home extends React.Component<any, IHomeState> {
                 showPlayButton={false}
                 showYouTubeButton
                 showSpotifyButton
+                isSpotifyOpened={this.state.isSpotifyOpened}
               />
             </div>
             <div className={homeStyles.buttonsDiv}>
