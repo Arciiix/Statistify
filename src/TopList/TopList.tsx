@@ -212,6 +212,7 @@ class TopList extends React.Component<any, ITopListState> {
                       additionalArtistNameClassName={`${styles.artistComponentArtistName}`}
                       showSpotifyButton
                       showYouTubeButton
+                      isSpotifyOpened={this.state.isSpotifyOpened}
                     />
                   </div>
                 );

@@ -139,9 +139,6 @@ class Song extends React.Component<ISongProps, ISongState> {
             >
               <FaSpotify
                 className={`${styles.iconButton} ${styles.spotifyIcon}`}
-                onClick={
-                  () => null /*DEV TODO: Make the Spotify play button work*/
-                }
               />
             </a>
           )}

@@ -15,6 +15,7 @@ interface IArtistProps {
   additionalArtistNameClassName?: string;
   showYouTubeButton?: boolean;
   showSpotifyButton?: boolean;
+  isSpotifyOpened?: boolean;
 }
 
 interface IArtistState {
@@ -87,12 +88,19 @@ class Artist extends React.Component<IArtistProps, IArtistState> {
             </a>
           )}
           {this.props.showSpotifyButton && (
-            <FaSpotify
-              className={`${styles.iconButton} ${styles.spotifyIcon}`}
-              onClick={
-                () => null /*DEV TODO: Make the Spotify play button work*/
+            <a
+              href={
+                this.props.isSpotifyOpened
+                  ? `spotify:artist:${this.props.artistId}`
+                  : `https://open.spotify.com/artist/${this.props.artistId}`
               }
-            />
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaSpotify
+                className={`${styles.iconButton} ${styles.spotifyIcon}`}
+              />
+            </a>
           )}
         </div>
       </div>
