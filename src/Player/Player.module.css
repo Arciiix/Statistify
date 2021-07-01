@@ -1,0 +1,76 @@
+.player {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(61, 61, 61);
+  align-items: center;
+  padding: 15px;
+}
+.currentlyPlaying {
+  color: #ffffff;
+  font-size: 2em;
+  width: 100%;
+  text-align: left;
+}
+.playerSlider {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.playerTime {
+  color: white;
+  font-size: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.playerControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.playerControlsIcon {
+  color: white;
+  font-size: 2.5em;
+  margin: 0px 5px;
+  transition: 0.25s color;
+}
+
+.playerControlsIcon:hover {
+  color: #2bf17a;
+  cursor: pointer;
+}
+
+.playerControlsIcon:active {
+  color: #0db850;
+}
+
+.playerControlsPlay {
+  color: white;
+  font-size: 3.5em;
+  margin: 0px 5px;
+  transition: 0.25s color;
+}
+
+.playerControlsPlay:hover {
+  color: #2bf17a;
+  cursor: pointer;
+}
+
+.playerControlsPlay:active {
+  color: #0db850;
+}
+
+.audioControl {
+  display: flex;
+  width: 100%;
+  color: #ffffff;
+  font-size: 1.5em;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 10px;
+}
+.audioControlSlider {
+  margin-left: 5px;
+  max-width: 20%;
+}

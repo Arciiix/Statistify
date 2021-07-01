@@ -11,6 +11,7 @@ import type { ISettings } from "./TopListTypes";
 import Loading from "../Loading/Loading";
 import Song from "../Song/Song";
 import Artist from "../Artist/Artist";
+import Player from "../Player/Player";
 
 interface ITopListState {
   isLoading: boolean;
@@ -222,6 +223,10 @@ class TopList extends React.Component<any, ITopListState> {
             <button className={styles.onceAgainButton} onClick={this.onceAgain}>
               <span className={styles.onceAgainButtonText}>Jeszcze raz</span>
             </button>
+          </div>
+
+          <div className={styles.playerDiv}>
+            <Player />
           </div>
         </div>
       );
