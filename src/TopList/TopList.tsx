@@ -226,7 +226,7 @@ class TopList extends React.Component<any, ITopListState> {
           </div>
 
           <div className={styles.playerDiv}>
-            <Player />
+            <Player url="" />
           </div>
         </div>
       );

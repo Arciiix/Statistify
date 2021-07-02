@@ -15,6 +15,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  margin-bottom: 5px;
 }
 .playerTime {
   color: white;
@@ -24,6 +25,17 @@
   justify-content: space-between;
   width: 100%;
 }
+
+.playerControlsDiv {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.whiteSpace {
+  flex: 1 0 auto;
+}
+
 .playerControls {
   display: flex;
   justify-content: center;
@@ -63,7 +75,7 @@
 
 .audioControl {
   display: flex;
-  width: 100%;
+  flex: 1 0 auto;
   color: #ffffff;
   font-size: 1.5em;
   align-items: center;
