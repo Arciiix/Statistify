@@ -4,12 +4,21 @@
   background-color: rgb(61, 61, 61);
   align-items: center;
   padding: 15px;
+
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 20px);
+  height: 140px;
 }
 .currentlyPlaying {
   color: #ffffff;
   font-size: 2em;
   width: 100%;
   text-align: left;
+  height: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .playerSlider {
   align-items: center;

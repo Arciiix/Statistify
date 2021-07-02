@@ -226,7 +226,10 @@ class TopList extends React.Component<any, ITopListState> {
           </div>
 
           <div className={styles.playerDiv}>
-            <Player url="" />
+            <Player
+              trackName={"Song title"}
+              url="https://p.scdn.co/mp3-preview/3c85f51dfe276423260c51e3d46f90d3eeb4be21?cid=4ea89f9e0d134959b7672e12d7405d86"
+            />
           </div>
         </div>
       );
