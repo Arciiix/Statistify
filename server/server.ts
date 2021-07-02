@@ -101,7 +101,7 @@ app.get("/api/generateToken", async (req, res) => {
 
 app.get("/api/getUserData", async (req, res) => {
   let tokenValidation = await validateJWTToken(req.cookies.token);
-  if (tokenValidation.error) return res.send(tokenValidation);
+  if (tokenValidation.error) return res.status(403).send(tokenValidation);
 
   //Get the user data from the Spotify API
 
@@ -162,7 +162,7 @@ app.delete("/api/logOut", (req, res) => {
 
 app.get("/api/getTopList", async (req, res) => {
   let tokenValidation = await validateJWTToken(req.cookies.token);
-  if (tokenValidation.error) return res.send(tokenValidation);
+  if (tokenValidation.error) return res.status(403).send(tokenValidation);
 
   let numberOfResults: number | null = parseInt(
     req.query.numberOfResults as string
