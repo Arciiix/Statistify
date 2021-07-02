@@ -108,6 +108,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
 
     this.setState({
       currentPosition: this.audio.currentTime,
+      isPlaying: !this.audio.paused,
     });
   }
 
