@@ -39,7 +39,10 @@ class TopListSetup extends React.Component<any, ITopListSetupState> {
     return (
       <div className={styles.container}>
         <LogOut />
-        <div className={styles.logo}>
+        <div
+          className={styles.logo}
+          onClick={() => (window.location.href = "/")}
+        >
           <img
             src={process.env.PUBLIC_URL + "/icon/icon1024.png"}
             className={styles.logoImg}
