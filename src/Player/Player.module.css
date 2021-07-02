@@ -52,7 +52,7 @@
 }
 .playerControlsIcon {
   color: white;
-  font-size: 2.5em;
+  font-size: 2em;
   margin: 0px 5px;
   transition: 0.25s color;
 }
@@ -94,4 +94,61 @@
 .audioControlSlider {
   margin-left: 5px;
   max-width: 20%;
+}
+
+@media only screen and (max-width: 350px) {
+  .audioControlSlider {
+    max-width: 70%;
+  }
+  .playerControlsIcon {
+    font-size: 1.5em;
+  }
+  .playerControlsPlay {
+    font-size: 2.5em;
+  }
+  .currentlyPlaying {
+    font-size: 1.75em;
+  }
+}
+
+@media only screen and (min-width: 351px) {
+  .audioControlSlider {
+    max-width: 60%;
+  }
+  .playerControlsIcon {
+    font-size: 1.5em;
+  }
+  .playerControlsPlay {
+    font-size: 2.5em;
+  }
+  .currentlyPlaying {
+    font-size: 1.75em;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .audioControlSlider {
+    max-width: 60%;
+  }
+  .playerControlsIcon {
+    font-size: 2em;
+  }
+  .playerControlsPlay {
+    font-size: 3.5em;
+  }
+  .currentlyPlaying {
+    font-size: 2em;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .audioControlSlider {
+    max-width: 40%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .audioControlSlider {
+    max-width: 20%;
+  }
 }

@@ -19,6 +19,10 @@ interface ITopListState {
   numberOfResults: number;
   data: Array<ITopTrack> | any;
   isSpotifyOpened: boolean;
+  currentPreviewTrack: {
+    url: string;
+    name: string;
+  };
 }
 
 interface ITopTrack {
@@ -48,6 +52,10 @@ class TopList extends React.Component<any, ITopListState> {
       numberOfResults: 0,
       data: [],
       isSpotifyOpened: false,
+      currentPreviewTrack: {
+        name: "Wybierz piosenkę...",
+        url: "",
+      },
     };
   }
 
@@ -189,6 +197,18 @@ class TopList extends React.Component<any, ITopListState> {
                       showCover={true}
                       coverImageURL={e.coverURL}
                       previewUrl={e.previewUrl}
+                      onPlayButtonClick={(
+                        previewUrl: string,
+                        trackAuthor: string,
+                        trackTitle: string
+                      ) => {
+                        this.setState({
+                          currentPreviewTrack: {
+                            url: previewUrl,
+                            name: `${trackAuthor} - ${trackTitle}`,
+                          },
+                        });
+                      }}
                       showPlayButton={true}
                       showYouTubeButton={true}
                       showSpotifyButton={true}
@@ -219,18 +239,26 @@ class TopList extends React.Component<any, ITopListState> {
                 );
               })}
           </div>
-          <div className={styles.onceAgain}>
+          <div
+            className={`${styles.onceAgain}${
+              ((this.state.resourceType as unknown) as string) === "songs"
+                ? ` ${styles.whiteSpace}`
+                : ""
+            }`}
+          >
             <button className={styles.onceAgainButton} onClick={this.onceAgain}>
               <span className={styles.onceAgainButtonText}>Jeszcze raz</span>
             </button>
           </div>
 
-          <div className={styles.playerDiv}>
-            <Player
-              trackName={"Song title"}
-              url="https://p.scdn.co/mp3-preview/3c85f51dfe276423260c51e3d46f90d3eeb4be21?cid=4ea89f9e0d134959b7672e12d7405d86"
-            />
-          </div>
+          {((this.state.resourceType as unknown) as string) === "songs" && (
+            <div className={styles.playerDiv}>
+              <Player
+                trackName={this.state.currentPreviewTrack.name}
+                url={this.state.currentPreviewTrack.url}
+              />
+            </div>
+          )}
         </div>
       );
     }

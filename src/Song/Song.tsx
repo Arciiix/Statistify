@@ -18,6 +18,11 @@ interface ISongProps {
   showSpotifyButton?: boolean;
   trackInfoWidth?: string | number;
   previewUrl?: string;
+  onPlayButtonClick?: (
+    previewUrl: string,
+    trackAuthor: string,
+    trackTitle: string
+  ) => void;
   additionalContainerClassName?: string;
   additionalTrackInfoClassName?: string;
   isSpotifyOpened?: boolean;
@@ -110,10 +115,18 @@ class Song extends React.Component<ISongProps, ISongState> {
           <div className={styles.trackLength}>{this.state.trackLengthText}</div>
         </div>
         <div className={styles.playButtons}>
-          {this.props.showPlayButton && (
+          {this.props.showPlayButton && this.props.previewUrl && (
             <FaPlay
               className={`${styles.iconButton} ${styles.playIcon}`}
-              onClick={() => null /*DEV TODO: Make the play button work*/}
+              onClick={() => {
+                if (this.props.onPlayButtonClick) {
+                  this.props.onPlayButtonClick(
+                    this.props.previewUrl || "",
+                    this.props.trackAuthor,
+                    this.props.trackTitle
+                  );
+                }
+              }}
             />
           )}
           {this.props.showYouTubeButton && (

@@ -21,6 +21,7 @@ interface IPlayerState {
   length: number;
   isPlaying: boolean;
   isChanging: boolean;
+  prevURL: string;
 }
 
 class Player extends React.Component<IPlayerProps, IPlayerState> {
@@ -33,6 +34,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
       length: 0,
       isPlaying: false,
       isChanging: false,
+      prevURL: "",
     };
     this.audio = new Audio();
   }
@@ -50,6 +52,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
     });
 
     setInterval(this.updatePosition.bind(this), 1000);
+    setInterval(this.waitForAudio.bind(this), 500);
 
     document.addEventListener("keydown", (e) => {
       switch (e.code.toLowerCase()) {
@@ -68,6 +71,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
           this.setState({ currentPosition: position });
           break;
         case "space":
+          e.preventDefault();
           this.tooglePlay();
           break;
         case "arrowdown":
@@ -101,7 +105,22 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
   updatePosition(): void {
     if (!this.audio || this.audio.paused) return;
     if (this.state.isChanging) return;
-    this.setState({ currentPosition: this.audio.currentTime });
+
+    this.setState({
+      currentPosition: this.audio.currentTime,
+    });
+  }
+
+  waitForAudio(): void {
+    let prevURL = this.state.prevURL;
+    if (prevURL !== this.props.url) {
+      this.audio.pause();
+      this.audio.src = this.props.url;
+      this.audio.currentTime = 0;
+      this.audio.play();
+      prevURL = this.props.url;
+      this.setState({ prevURL: prevURL, isPlaying: true });
+    }
   }
 
   formatTime(time: number): string {
