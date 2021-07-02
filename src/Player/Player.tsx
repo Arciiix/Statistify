@@ -172,7 +172,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
                 if (position < 0) position = 0;
                 this.audio.currentTime = position;
                 this.audio.play();
-                this.setState({ currentPosition: position });
+                this.setState({ currentPosition: position, isPlaying: true });
               }}
             />
             {this.state.isPlaying ? (
@@ -193,7 +193,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
                 if (position > this.state.length) position = this.state.length;
                 this.audio.currentTime = position;
                 this.audio.play();
-                this.setState({ currentPosition: position });
+                this.setState({ currentPosition: position, isPlaying: true });
               }}
             />
           </div>
