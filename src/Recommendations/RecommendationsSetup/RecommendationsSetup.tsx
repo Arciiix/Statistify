@@ -46,15 +46,37 @@ class RecommendationsSetup extends React.Component<
     if (this.state.searchQuery === this.state.lastSearch) return;
     if (this.state.searchQuery.replace(/\s/g, "") == "") return;
 
-    console.log(`/api/search?q=${encodeURIComponent(this.state.searchQuery)}`);
-
     let request = await fetch(
-      `/api/search?q=${encodeURIComponent(this.state.searchQuery)}`
+      `/api/search/songs?q=${encodeURIComponent(this.state.searchQuery)}`
     );
     let response = await request.json();
-    //DEV TODO: Handle the request
 
-    this.setState({ lastSearch: this.state.searchQuery });
+    if (request.status !== 200 || response.error) {
+      //DEV
+      //TODO: Handle an error
+      console.log(`ERROR: ${response.errorMessage}`);
+    }
+
+    console.log(response);
+
+    let serializedData: Array<IRecommendationsTrack> | null = [];
+    serializedData = response.data.map((e: any) => {
+      let authors = e.artists.map((e: any) => e.name);
+      let track: IRecommendationsTrack = {
+        id: e.id,
+        title: e.name,
+        author: authors.join(", "),
+        album: e.album.name,
+        coverURL: e.album.images[0].url,
+        lengthMs: e.duration_ms,
+      };
+      return track;
+    });
+
+    this.setState({
+      lastSearch: this.state.searchQuery,
+      searchResults: serializedData,
+    });
   }
 
   selectTrack(trackId: string): void {

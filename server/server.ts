@@ -230,7 +230,6 @@ app.get("/api/getTopList", async (req, res) => {
       },
     }
   );
-  console.log(userTopListRequest.status);
 
   let userTopListResponse = await userTopListRequest.json();
 
@@ -245,6 +244,49 @@ app.get("/api/getTopList", async (req, res) => {
     data: userTopListResponse.items,
     resourceType: resourceType,
   });
+});
+
+app.get("/api/search/:resourceType", async (req, res) => {
+  //Validate the token - so whether user is logged
+  let tokenValidation = await validateJWTToken(req.cookies.token);
+  if (tokenValidation.error) return res.status(403).send(tokenValidation);
+
+  //For now, only songs are supported, so if the resourceType is different, send an error back
+  //TODO: Add a support for artists etc.
+  if (req.params.resourceType !== "songs")
+    return res
+      .status(404)
+      .send({ error: true, errorMessage: "WRONG_RESOURCETYPE" });
+
+  if (!req.query.q)
+    return res.status(400).send({ error: true, errorMessage: "MISSING_QUERY" });
+
+  let searchSettings: any = {
+    q: req.query.q,
+    type: "track",
+    limit: 20,
+  };
+
+  let searchRequest = await fetch(
+    `https://api.spotify.com/v1/search?${new URLSearchParams(searchSettings)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${tokenValidation.payload.token}`,
+      },
+    }
+  );
+
+  if (searchRequest.status !== 200) {
+    return res.status(500).send({
+      error: true,
+      errorMessage: `STATUS_CODE: ${
+        searchRequest.status
+      }; RESPONSE: ${await searchRequest.text()}`,
+    });
+  } else {
+    let data = await searchRequest.json();
+    return res.send({ error: false, data: data.tracks.items });
+  }
 });
 
 app.all("/api/*", (req, res) =>
