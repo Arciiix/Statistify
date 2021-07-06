@@ -134,10 +134,6 @@
   .songContainer {
     width: 80vw;
   }
-  .songTrack {
-    min-width: 80vw;
-    max-width: 80vw;
-  }
 }
 
 @media only screen and (max-width: 350px) {
@@ -160,8 +156,7 @@
     width: 80vw;
   }
   .songTrack {
-    min-width: 80vw;
-    max-width: 80vw;
+    min-width: 100%;
   }
 }
 
@@ -183,10 +178,9 @@
   }
   .songContainer {
     width: 80vw;
-  }
-  .songTrack {
-    min-width: 80vw;
-    max-width: 80vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -210,6 +204,7 @@
   }
   .songContainer {
     width: 55vw;
+    display: flex;
   }
   .songTrack {
     min-width: 35vw;

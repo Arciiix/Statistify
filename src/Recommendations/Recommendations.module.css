@@ -1,0 +1,105 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.initSongDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.header {
+  color: #ffffff;
+  font-size: 4em;
+  margin: 10px;
+  text-align: center;
+}
+.songContainer {
+  width: 50vw;
+  margin: 20px 0;
+}
+.songTrack {
+  min-width: 30vw;
+  max-width: 30vw;
+  word-wrap: break-word;
+}
+
+.recommendationsDiv {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.playerDiv {
+  width: 100%;
+}
+
+.whiteSpace {
+  margin-bottom: 180px;
+  width: 100%;
+}
+
+@media only screen and (max-width: 250px) {
+  .header {
+    font-size: 1.5em;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .songContainer {
+    width: 80vw;
+  }
+  .songTrack {
+    min-width: 100%;
+  }
+  .header {
+    font-size: 2em;
+  }
+}
+
+@media only screen and (min-width: 351px) {
+  .songContainer {
+    width: 80vw;
+  }
+  .header {
+    font-size: 3em;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .songContainer {
+    width: 55vw;
+  }
+  .songTrack {
+    min-width: 35vw;
+    max-width: 35vw;
+  }
+  .header {
+    font-size: 3.5em;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .songContainer {
+    width: 60vw;
+  }
+  .songTrack {
+    min-width: 40vw;
+    max-width: 40vw;
+  }
+  .header {
+    font-size: 4em;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .songContainer {
+    width: 50vw;
+  }
+  .songTrack {
+    min-width: 30vw;
+    max-width: 30vw;
+  }
+}
