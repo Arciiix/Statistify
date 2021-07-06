@@ -8,6 +8,7 @@ import styles from "./Recommendations.module.css";
 import Song from "../Song/Song";
 import Loading from "../Loading/Loading";
 import Player from "../Player/Player";
+import { encode } from "punycode";
 
 interface ITrack {
   id: string;
@@ -22,10 +23,12 @@ interface ITrack {
 interface IRecommendationsState {
   isLoading: boolean;
   initSong: ITrack;
+  recommendations: Array<ITrack>;
   currentPreviewTrack: {
     url: string;
     name: string;
   };
+  isSpotifyOpened: boolean;
 }
 
 class Recommendations extends React.Component<any, IRecommendationsState> {
@@ -42,10 +45,12 @@ class Recommendations extends React.Component<any, IRecommendationsState> {
         lengthMs: 0,
         previewURL: "",
       },
+      recommendations: [],
       currentPreviewTrack: {
         url: "",
         name: "Wybierz piosenkę...",
       },
+      isSpotifyOpened: false,
     };
   }
 
@@ -57,6 +62,42 @@ class Recommendations extends React.Component<any, IRecommendationsState> {
       window.location.href = "/recommendations/setup";
       return;
     } else {
+      let recommendationsRequest = await fetch(
+        `/api/getRecommendations?id=${encodeURIComponent(initSongId as string)}`
+      );
+      let recommendationsResponse = await recommendationsRequest.json();
+      if (
+        recommendationsRequest.status !== 200 ||
+        recommendationsResponse.error
+      ) {
+        //DEV
+        //TODO: Handle the error
+      } else {
+        let serializedData: Array<ITrack> = [];
+        recommendationsResponse.data.forEach((elem: any) => {
+          let authors = elem.artists.map((e: any) => e.name);
+
+          let track: ITrack = {
+            id: elem.id,
+            title: elem.name,
+            author: authors.join(", "),
+            album: elem.album.name,
+            coverURL: elem.album.images[0].url,
+            lengthMs: elem.duration_ms,
+            previewURL: elem.preview_url,
+          };
+
+          serializedData.push(track);
+        });
+
+        this.setState({
+          recommendations: serializedData,
+          isSpotifyOpened:
+            window.sessionStorage.getItem("isSpotifyOpened") === "true" ||
+            false,
+        });
+      }
+
       //Get the initial song
       let initSongRequest = await fetch(
         `/api/getTrack?id=${encodeURIComponent(initSongId as string)}`
@@ -91,6 +132,19 @@ class Recommendations extends React.Component<any, IRecommendationsState> {
     } else {
       return (
         <div className={styles.container}>
+          <LogOut />
+
+          <div
+            className={styles.logo}
+            onClick={() => (window.location.href = "/")}
+          >
+            <img
+              src={process.env.PUBLIC_URL + "/icon/icon1024.png"}
+              className={styles.logoImg}
+            />
+            <span className={styles.logoText}>Rekomendacje</span>
+          </div>
+
           <div className={styles.initSongDiv}>
             <span className={styles.header}>Na podstawie</span>
             <Song
@@ -123,6 +177,40 @@ class Recommendations extends React.Component<any, IRecommendationsState> {
           </div>
           <div className={styles.recommendationsDiv}>
             <span className={styles.header}>Może spodobać Ci się</span>
+
+            {this.state.recommendations.map((e) => {
+              return (
+                <Song
+                  key={e.id}
+                  trackId={e.id}
+                  trackTitle={e.title}
+                  trackAuthor={e.author}
+                  trackAlbum={e.album}
+                  trackLengthMs={e.lengthMs}
+                  showCover={true}
+                  coverImageURL={e.coverURL}
+                  previewUrl={e.previewURL}
+                  onPlayButtonClick={(
+                    previewUrl: string,
+                    trackAuthor: string,
+                    trackTitle: string
+                  ) => {
+                    this.setState({
+                      currentPreviewTrack: {
+                        url: previewUrl,
+                        name: `${trackAuthor} - ${trackTitle}`,
+                      },
+                    });
+                  }}
+                  showPlayButton={true}
+                  showYouTubeButton={true}
+                  showSpotifyButton={true}
+                  additionalContainerClassName={`${styles.songContainer}`}
+                  additionalTrackInfoClassName={`${styles.songTrack}`}
+                  isSpotifyOpened={this.state.isSpotifyOpened}
+                />
+              );
+            })}
           </div>
 
           <div className={styles.playerDiv}>

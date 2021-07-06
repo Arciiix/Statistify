@@ -245,17 +245,10 @@ app.get("/api/getTopList", async (req, res) => {
   });
 });
 
-app.get("/api/search/:resourceType", async (req, res) => {
+app.get("/api/search", async (req, res) => {
   //Validate the token - so whether user is logged
   let tokenValidation = await validateJWTToken(req.cookies.token);
   if (tokenValidation.error) return res.status(403).send(tokenValidation);
-
-  //For now, only songs are supported, so if the resourceType is different, send an error back
-  //TODO: Add a support for artists etc.
-  if (req.params.resourceType !== "songs")
-    return res
-      .status(404)
-      .send({ error: true, errorMessage: "WRONG_RESOURCETYPE" });
 
   if (!req.query.q)
     return res.status(400).send({ error: true, errorMessage: "MISSING_QUERY" });
@@ -323,6 +316,43 @@ app.get("/api/getTrack", async (req, res) => {
 
   let trackResponse = await trackRequest.json();
   res.send({ error: false, data: trackResponse });
+});
+
+app.get("/api/getRecommendations", async (req, res) => {
+  //Validate the token - so whether user is logged
+  let tokenValidation = await validateJWTToken(req.cookies.token);
+  if (tokenValidation.error) return res.status(403).send(tokenValidation);
+
+  if (!req.query.id)
+    return res.status(400).send({ error: true, errorMessage: "MISSING_ID" });
+
+  let recommendationsSettings: any = {
+    seed_tracks: req.query.id,
+    limit: 50,
+  };
+
+  let recommendationsRequest = await fetch(
+    `https://api.spotify.com/v1/recommendations?${new URLSearchParams(
+      recommendationsSettings
+    )}`,
+    {
+      headers: {
+        Authorization: `Bearer ${tokenValidation.payload.token}`,
+      },
+    }
+  );
+
+  if (recommendationsRequest.status !== 200) {
+    return res.status(500).send({
+      error: true,
+      errorMessage: `STATUS_CODE: ${
+        recommendationsRequest.status
+      }; RESPONSE: ${await recommendationsRequest.text()}`,
+    });
+  } else {
+    let recommendationsResponse = await recommendationsRequest.json();
+    return res.send({ error: false, data: recommendationsResponse.tracks });
+  }
 });
 
 app.all("/api/*", (req, res) =>

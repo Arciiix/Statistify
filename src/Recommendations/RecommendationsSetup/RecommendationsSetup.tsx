@@ -28,6 +28,7 @@ interface IRecommendationsSetupState {
     url: string;
     name: string;
   };
+  isSpotifyOpened: boolean;
 }
 
 class RecommendationsSetup extends React.Component<
@@ -45,11 +46,17 @@ class RecommendationsSetup extends React.Component<
         name: "Wybierz piosenkę...",
         url: "",
       },
+      isSpotifyOpened: false,
     };
   }
 
   async componentDidMount() {
     await checkForLoginValidity();
+
+    this.setState({
+      isSpotifyOpened:
+        window.sessionStorage.getItem("isSpotifyOpened") === "true" || false,
+    });
   }
 
   async search() {
@@ -59,7 +66,7 @@ class RecommendationsSetup extends React.Component<
     this.setState({ isLoading: true });
 
     let request = await fetch(
-      `/api/search/songs?q=${encodeURIComponent(this.state.searchQuery)}`
+      `/api/search?q=${encodeURIComponent(this.state.searchQuery)}`
     );
     let response = await request.json();
 
@@ -68,8 +75,6 @@ class RecommendationsSetup extends React.Component<
       //TODO: Handle an error
       console.log(`ERROR: ${response.errorMessage}`);
     }
-
-    console.log(response);
 
     let serializedData: Array<IRecommendationsTrack> | null = [];
     serializedData = response.data.map((e: any) => {
@@ -173,6 +178,7 @@ class RecommendationsSetup extends React.Component<
                     additionalContainerClassName={styles.songContainer}
                     additionalTrackInfoClassName={styles.songTrack}
                     onTrackInfoClick={this.selectTrack.bind(this)}
+                    isSpotifyOpened={this.state.isSpotifyOpened}
                   />
                 );
               })}
