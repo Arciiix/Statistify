@@ -56,6 +56,8 @@ class RecommendationsSetup extends React.Component<
     if (this.state.searchQuery === this.state.lastSearch) return;
     if (this.state.searchQuery.replace(/\s/g, "") == "") return;
 
+    this.setState({ isLoading: true });
+
     let request = await fetch(
       `/api/search/songs?q=${encodeURIComponent(this.state.searchQuery)}`
     );
@@ -87,6 +89,7 @@ class RecommendationsSetup extends React.Component<
     this.setState({
       lastSearch: this.state.searchQuery,
       searchResults: serializedData,
+      isLoading: false,
     });
   }
 
@@ -129,18 +132,21 @@ class RecommendationsSetup extends React.Component<
           </div>
         </div>
         <div className={styles.searchResults}>
-          {!this.state.searchResults && (
-            <div className={styles.searchTip}>
-              <span>Nic tu nie ma!</span>
-              <span>Wyszukaj coś...</span>
-            </div>
-          )}
+          {(!this.state.searchResults ||
+            this.state.searchResults.length == 0) &&
+            !this.state.isLoading && (
+              <div className={styles.searchTip}>
+                <span>Nic tu nie ma!</span>
+                <span>Wyszukaj coś...</span>
+              </div>
+            )}
           {this.state.isLoading && <Loading />}
           {(this.state.searchResults?.length || 0) > 0 && (
             <div>
               {this.state.searchResults?.map((e: IRecommendationsTrack) => {
                 return (
                   <Song
+                    key={e.id}
                     trackId={e.id}
                     trackTitle={e.title}
                     trackAuthor={e.author}
