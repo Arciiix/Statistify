@@ -1,4 +1,3 @@
-import { resolveSoa } from "dns";
 import express from "express";
 import jwt from "jsonwebtoken";
 import fetch from "node-fetch";
@@ -287,6 +286,43 @@ app.get("/api/search/:resourceType", async (req, res) => {
     let data = await searchRequest.json();
     return res.send({ error: false, data: data.tracks.items });
   }
+});
+
+app.get("/api/getTrack", async (req, res) => {
+  //Validate the token - so whether user is logged
+  let tokenValidation = await validateJWTToken(req.cookies.token);
+  if (tokenValidation.error) return res.status(403).send(tokenValidation);
+
+  if (!req.query.id)
+    return res.status(400).send({ error: true, errorMessage: "MISSING_ID" });
+
+  let trackRequest = await fetch(
+    `https://api.spotify.com/v1/tracks/${req.query.id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${tokenValidation.payload.token}`,
+      },
+    }
+  );
+
+  if (trackRequest.status !== 200) {
+    if (trackRequest.status === 400) {
+      return res.status(400).send({
+        error: true,
+        errorMessage: `WRONG_ID`,
+      });
+    } else {
+      res.status(500).send({
+        error: true,
+        errorMessage: `STATUS_CODE: ${
+          trackRequest.status
+        }; RESPONSE: ${await trackRequest.text()}`,
+      });
+    }
+  }
+
+  let trackResponse = await trackRequest.json();
+  res.send({ error: false, data: trackResponse });
 });
 
 app.all("/api/*", (req, res) =>
