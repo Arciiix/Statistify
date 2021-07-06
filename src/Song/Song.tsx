@@ -23,6 +23,11 @@ interface ISongProps {
     trackAuthor: string,
     trackTitle: string
   ) => void;
+  onTrackInfoClick?: (
+    trackId: string,
+    trackTitle: string,
+    trackAuthor: string
+  ) => void;
   additionalContainerClassName?: string;
   additionalTrackInfoClassName?: string;
   isSpotifyOpened?: boolean;
@@ -102,8 +107,19 @@ class Song extends React.Component<ISongProps, ISongState> {
             this.props.additionalTrackInfoClassName
               ? ` ${this.props.additionalTrackInfoClassName}`
               : ""
-          }`}
-          style={{ width: this.props.trackInfoWidth || "auto" }}
+          }${this.props.onTrackInfoClick ? ` ${styles.link}` : ""}`}
+          style={{
+            width: this.props.trackInfoWidth || "auto",
+          }}
+          onClick={() => {
+            if (this.props.onTrackInfoClick) {
+              this.props.onTrackInfoClick(
+                this.props.trackId,
+                this.props.trackTitle,
+                this.props.trackAuthor
+              );
+            }
+          }}
         >
           <div className={styles.titleAndAuthor}>
             <span className={styles.title}>{this.props.trackTitle}</span>

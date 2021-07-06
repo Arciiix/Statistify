@@ -62,6 +62,20 @@
   transition: 0.25s;
   cursor: pointer;
 }
+
+.link {
+  cursor: pointer;
+}
+.link span {
+  transition: color 0.2s;
+}
+.link:hover span {
+  color: #1db954;
+}
+.link:active span {
+  color: #179242;
+}
+
 .playIcon:hover {
   color: #2e69ff;
 }

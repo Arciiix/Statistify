@@ -7,6 +7,7 @@ import Home from "./Home/Home";
 import ProceedLogin from "./ProceedLogin/ProceedLogin";
 import TopList from "./TopList/TopList";
 import TopListSetup from "./TopList/TopListSetup/TopListSetup";
+import RecommendationsSetup from "./Recommendations/RecommendationsSetup/RecommendationsSetup";
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
         {/*I need to pass the component in-line because I will access the query parameters in it */}
         <Route path="/topList/setup" exact>
           <TopListSetup />
+        </Route>
+        <Route path="/recommendations/setup" exact>
+          <RecommendationsSetup />
         </Route>
         <Route path="/proceedLogin" exact component={ProceedLogin} />{" "}
         {/*I need to pass the component in-line because I will access the query parameters in it */}

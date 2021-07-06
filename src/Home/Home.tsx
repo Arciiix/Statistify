@@ -141,7 +141,11 @@ class Home extends React.Component<any, IHomeState> {
                   Top piosenki i artyści
                 </button>
               </Link>
-              <button className={homeStyles.optionButton}>Rekomendacje</button>
+              <Link to="/recommendations/setup">
+                <button className={homeStyles.optionButton}>
+                  Rekomendacje
+                </button>
+              </Link>
               <button className={homeStyles.optionButton}>
                 Export playlisty
               </button>

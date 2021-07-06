@@ -1,0 +1,261 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+.logoImg {
+  width: 100px;
+  height: 100px;
+}
+.logoText {
+  color: #0db850;
+  background: linear-gradient(
+    90deg,
+    rgba(11, 168, 89, 1) 0%,
+    rgba(7, 124, 65, 1) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 90px;
+  text-align: center;
+}
+
+.searchDiv {
+  margin: 20px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.search {
+  width: 800px;
+  height: 64px;
+  font-size: 30px;
+  border: none;
+  border-radius: 500px;
+  color: #000000;
+  padding: 6px 20px;
+  outline: none;
+}
+
+.submitWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit {
+  background-color: #0db850;
+  margin: 10px;
+  border: none;
+  color: white;
+  width: 25%;
+  height: 80px;
+  font-size: 3em;
+  border-radius: 5px;
+  transition: background-color 0.25s;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.submit:hover {
+  cursor: pointer;
+  background-color: #0b9241;
+}
+.submit:active {
+  background-color: #07662d;
+}
+.submitIcon {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 0.9em;
+}
+
+.searchResults {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.searchTip {
+  color: white;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.songContainer {
+  width: 50vw;
+  margin: 20px 0;
+}
+.songTrack {
+  min-width: 30vw;
+  max-width: 30vw;
+  word-wrap: break-word;
+}
+
+@media only screen and (max-width: 250px) {
+  .logoText {
+    font-size: 30px;
+    margin-top: 50px;
+    width: 100%;
+    word-wrap: break-word;
+  }
+  .search {
+    width: 80%;
+    font-size: 1.5em;
+  }
+  .submit {
+    width: 90%;
+    font-size: 2em;
+  }
+  .songContainer {
+    width: 80vw;
+  }
+  .songTrack {
+    min-width: 80vw;
+    max-width: 80vw;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .logoImg {
+    display: none;
+  }
+  .logoText {
+    font-size: 30px;
+    margin-top: 50px;
+  }
+  .search {
+    width: 80%;
+    font-size: 1.5em;
+  }
+  .submit {
+    width: 90%;
+    font-size: 2em;
+  }
+  .songContainer {
+    width: 80vw;
+  }
+  .songTrack {
+    min-width: 80vw;
+    max-width: 80vw;
+  }
+}
+
+@media only screen and (min-width: 351px) {
+  .logoImg {
+    display: none;
+  }
+  .logoText {
+    font-size: 45px;
+    margin-top: 50px;
+  }
+  .search {
+    width: 80%;
+    font-size: 1.5em;
+  }
+  .submit {
+    width: 90%;
+    font-size: 2em;
+  }
+  .songContainer {
+    width: 80vw;
+  }
+  .songTrack {
+    min-width: 80vw;
+    max-width: 80vw;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .logoImg {
+    display: flex;
+    width: 70px;
+    height: 70px;
+  }
+  .logoText {
+    font-size: 55px;
+    margin-top: 0px;
+  }
+  .search {
+    width: 80%;
+    font-size: 1.5em;
+  }
+  .submit {
+    width: 50%;
+    font-size: 2em;
+  }
+  .songContainer {
+    width: 60vw;
+  }
+  .songTrack {
+    min-width: 40vw;
+    max-width: 40vw;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .logoImg {
+    display: flex;
+    width: 80px;
+    height: 80px;
+  }
+  .logoText {
+    font-size: 70px;
+  }
+  .search {
+    width: 80%;
+    font-size: 1.5em;
+  }
+  .submit {
+    width: 40%;
+    font-size: 2.5em;
+  }
+  .songContainer {
+    width: 60vw;
+  }
+  .songTrack {
+    min-width: 40vw;
+    max-width: 40vw;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .logoImg {
+    display: flex;
+    width: 100px;
+    height: 100px;
+  }
+  .logoText {
+    font-size: 90px;
+  }
+  .search {
+    width: 800px;
+    font-size: 30px;
+  }
+  .submit {
+    width: 25%;
+    font-size: 3em;
+  }
+  .songContainer {
+    width: 50vw;
+  }
+  .songTrack {
+    min-width: 30vw;
+    max-width: 30vw;
+  }
+}
