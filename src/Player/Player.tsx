@@ -13,6 +13,7 @@ import styles from "./Player.module.css";
 interface IPlayerProps {
   trackName: string;
   url: string;
+  disableShortcuts?: boolean;
 }
 
 interface IPlayerState {
@@ -54,41 +55,43 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
     setInterval(this.updatePosition.bind(this), 1000);
     setInterval(this.waitForAudio.bind(this), 500);
 
-    document.addEventListener("keydown", (e) => {
-      switch (e.code.toLowerCase()) {
-        case "arrowleft":
-          let pos = this.state.currentPosition - 5;
-          if (pos < 0) pos = 0;
-          this.audio.currentTime = pos;
-          this.audio.play();
-          this.setState({ currentPosition: pos });
-          break;
-        case "arrowright":
-          let position = this.state.currentPosition + 5;
-          if (position > this.state.length) position = this.state.length;
-          this.audio.currentTime = position;
-          this.audio.play();
-          this.setState({ currentPosition: position });
-          break;
-        case "space":
-          e.preventDefault();
-          this.tooglePlay();
-          break;
-        case "arrowdown":
-          if (!e.ctrlKey) return;
-          let vol = this.state.volume - 10;
-          if (vol < 0) vol = 0;
-          this.audio.volume = vol / 100;
-          this.setState({ volume: vol });
-          break;
-        case "arrowup":
-          if (!e.ctrlKey) return;
-          let volume = this.state.volume + 10;
-          if (volume > 100) volume = 100;
-          this.audio.volume = volume / 100;
-          this.setState({ volume: volume });
-      }
-    });
+    if (!this.props.disableShortcuts) {
+      document.addEventListener("keydown", (e) => {
+        switch (e.code.toLowerCase()) {
+          case "arrowleft":
+            let pos = this.state.currentPosition - 5;
+            if (pos < 0) pos = 0;
+            this.audio.currentTime = pos;
+            this.audio.play();
+            this.setState({ currentPosition: pos });
+            break;
+          case "arrowright":
+            let position = this.state.currentPosition + 5;
+            if (position > this.state.length) position = this.state.length;
+            this.audio.currentTime = position;
+            this.audio.play();
+            this.setState({ currentPosition: position });
+            break;
+          case "space":
+            e.preventDefault();
+            this.tooglePlay();
+            break;
+          case "arrowdown":
+            if (!e.ctrlKey) return;
+            let vol = this.state.volume - 10;
+            if (vol < 0) vol = 0;
+            this.audio.volume = vol / 100;
+            this.setState({ volume: vol });
+            break;
+          case "arrowup":
+            if (!e.ctrlKey) return;
+            let volume = this.state.volume + 10;
+            if (volume > 100) volume = 100;
+            this.audio.volume = volume / 100;
+            this.setState({ volume: volume });
+        }
+      });
+    }
   }
 
   tooglePlay() {

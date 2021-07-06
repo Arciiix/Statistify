@@ -107,6 +107,15 @@
   word-wrap: break-word;
 }
 
+.playerDiv {
+  width: 100%;
+}
+
+.whiteSpace {
+  margin-bottom: 180px;
+  width: 100%;
+}
+
 @media only screen and (max-width: 250px) {
   .logoText {
     font-size: 30px;
@@ -200,11 +209,11 @@
     font-size: 2em;
   }
   .songContainer {
-    width: 60vw;
+    width: 55vw;
   }
   .songTrack {
-    min-width: 40vw;
-    max-width: 40vw;
+    min-width: 35vw;
+    max-width: 35vw;
   }
 }
 

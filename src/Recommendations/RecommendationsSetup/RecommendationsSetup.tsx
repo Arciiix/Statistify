@@ -7,6 +7,7 @@ import styles from "./RecommendationsSetup.module.css";
 
 import Song from "../../Song/Song";
 import Loading from "../../Loading/Loading";
+import Player from "../../Player/Player";
 
 interface IRecommendationsTrack {
   id: string;
@@ -15,6 +16,7 @@ interface IRecommendationsTrack {
   album: string;
   coverURL: string;
   lengthMs: number;
+  previewURL: string;
 }
 
 interface IRecommendationsSetupState {
@@ -22,6 +24,10 @@ interface IRecommendationsSetupState {
   searchQuery: string;
   lastSearch: string;
   isLoading: boolean;
+  currentPreviewTrack: {
+    url: string;
+    name: string;
+  };
 }
 
 class RecommendationsSetup extends React.Component<
@@ -35,6 +41,10 @@ class RecommendationsSetup extends React.Component<
       searchQuery: "",
       lastSearch: "",
       isLoading: false,
+      currentPreviewTrack: {
+        name: "Wybierz piosenkę...",
+        url: "",
+      },
     };
   }
 
@@ -69,6 +79,7 @@ class RecommendationsSetup extends React.Component<
         album: e.album.name,
         coverURL: e.album.images[0].url,
         lengthMs: e.duration_ms,
+        previewURL: e.preview_url,
       };
       return track;
     });
@@ -137,9 +148,22 @@ class RecommendationsSetup extends React.Component<
                     trackLengthMs={e.lengthMs}
                     showCover
                     coverImageURL={e.coverURL}
-                    showPlayButton={false}
+                    showPlayButton
                     showYouTubeButton
                     showSpotifyButton
+                    previewUrl={e.previewURL}
+                    onPlayButtonClick={(
+                      previewUrl: string,
+                      trackAuthor: string,
+                      trackTitle: string
+                    ) => {
+                      this.setState({
+                        currentPreviewTrack: {
+                          url: previewUrl,
+                          name: `${trackAuthor} - ${trackTitle}`,
+                        },
+                      });
+                    }}
                     additionalContainerClassName={styles.songContainer}
                     additionalTrackInfoClassName={styles.songTrack}
                     onTrackInfoClick={this.selectTrack.bind(this)}
@@ -148,6 +172,14 @@ class RecommendationsSetup extends React.Component<
               })}
             </div>
           )}
+          <div className={styles.whiteSpace}></div>
+        </div>
+        <div className={styles.playerDiv}>
+          <Player
+            trackName={this.state.currentPreviewTrack.name}
+            url={this.state.currentPreviewTrack.url}
+            disableShortcuts
+          />
         </div>
       </div>
     );
