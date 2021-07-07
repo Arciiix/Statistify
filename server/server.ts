@@ -34,7 +34,8 @@ app.get("/api/loginWithSpotify", (req, res) => {
     redirect_uri: "http://localhost:3000/proceedLogin", //DEV
     show_dialog: "true", //DEV
     //TODO: Use the state parameter - state: "MAKE THIS",
-    scope: "user-read-recently-played user-read-playback-state user-top-read", //TODO: Add the suitable scopes
+    scope:
+      "user-read-recently-played user-read-playback-state user-top-read playlist-read-private playlist-read-collaborative", //TODO: Add the suitable scopes
   };
   res.redirect(
     `https://accounts.spotify.com/authorize?${new URLSearchParams(
@@ -354,6 +355,122 @@ app.get("/api/getRecommendations", async (req, res) => {
     return res.send({ error: false, data: recommendationsResponse.tracks });
   }
 });
+
+app.get("/api/getUserPlaylists/:page", async (req, res) => {
+  //Validate the token - so whether user is logged
+  let tokenValidation = await validateJWTToken(req.cookies.token);
+  if (tokenValidation.error) return res.status(403).send(tokenValidation);
+
+  if (!req.params.page || isNaN(parseInt(req.params.page)))
+    return res
+      .status(400)
+      .send({ error: true, errorMessage: "WRONG_PAGENUMBER" });
+
+  let limit = 5;
+  let offset: number = (parseInt(req.params.page) - 1) * limit;
+
+  let userPlaylistsRequest = await getUserPlaylists(
+    tokenValidation.payload.token,
+    limit,
+    offset
+  );
+
+  if (userPlaylistsRequest.error) {
+    res.status(500).send(userPlaylistsRequest);
+  } else {
+    res.send({
+      error: false,
+      data: {
+        currentPage: parseInt(req.params.page),
+        totalItems: userPlaylistsRequest.data.total,
+        totalPages: Math.ceil(userPlaylistsRequest.data.total / limit),
+        items: userPlaylistsRequest.data.items,
+      },
+    });
+  }
+});
+
+async function getUserPlaylists(
+  token: string,
+  limit: number,
+  offset?: number
+): Promise<{ error: boolean; errorMessage?: string; data?: any }> {
+  if (!token || !limit)
+    return { error: true, errorMessage: "MISSING_TOKEN_OR_LIMIT" };
+
+  let userPlaylistsRequest = await fetch(
+    `https://api.spotify.com/v1/me/playlists?limit=${limit}${
+      offset ? `&offset=${offset}` : ""
+    }`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (userPlaylistsRequest.status !== 200) {
+    return {
+      error: true,
+      errorMessage: `STATUS: ${
+        userPlaylistsRequest.status
+      }; RESPONSE: ${await userPlaylistsRequest.text()}`,
+    };
+  } else {
+    let userPlaylistsResponse = await userPlaylistsRequest.json();
+
+    let items = userPlaylistsResponse.items;
+
+    let serializedItems = [];
+
+    for await (let item of items) {
+      let firstTracks = await getFirstFourTracksFromPlaylist(token, item.id);
+      if (firstTracks.error) {
+        return firstTracks;
+      } else {
+        item.firstFourTracks = firstTracks.data.map((e) => e.track);
+        serializedItems.push(item);
+      }
+    }
+
+    return {
+      error: false,
+      data: {
+        total: userPlaylistsResponse.total,
+        items: serializedItems,
+      },
+    };
+  }
+}
+
+async function getFirstFourTracksFromPlaylist(
+  token: string,
+  playlistId: string
+): Promise<{ error: boolean; errorMessage?: string; data?: any }> {
+  if (!token || !playlistId)
+    return { error: true, errorMessage: "MISSING_TOKEN_OR_PLAYLISTID" };
+
+  let tracksRequest = await fetch(
+    `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=4&market=PL`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (tracksRequest.status !== 200) {
+    return {
+      error: true,
+      errorMessage: `STATUS: ${
+        tracksRequest.status
+      }; RESPONSE: ${await tracksRequest.text()}`,
+    };
+  } else {
+    let tracksResponse = await tracksRequest.json();
+    return { error: false, data: tracksResponse.items };
+  }
+}
 
 app.all("/api/*", (req, res) =>
   res.status(404).send({ error: true, errorMessage: "NOT_FOUND" })

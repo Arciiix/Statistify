@@ -40,12 +40,18 @@
 .playlistWrapper {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.playlistInfo {
+  justify-content: center;
+  align-items: center;
+}
 .playlistContainer {
   width: 100%;
+  margin: 10px;
 }
 
 @media only screen and (max-width: 250px) {

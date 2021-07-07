@@ -10,11 +10,11 @@ interface IPlaylistProps {
   playlistId: string;
   playlistName: string;
   numberOfSongs: number;
-  userId: string;
   coverImageURLs: Array<string>;
   showSpotifyButton?: boolean;
   isSpotifyOpened?: boolean;
   additionalContainerClassName?: string;
+  additionalPlaylistInfoClassName?: string;
   onPlaylistClick?: (playlistId: string, playlistName: string) => void;
 }
 
@@ -57,7 +57,13 @@ class Playlist extends React.Component<IPlaylistProps, IPlaylistState> {
           backgroundColor: this.state.backgroundColor,
         }}
       >
-        <div className={styles.playlistInfoWrapper}>
+        <div
+          className={`${styles.playlistInfoWrapper}${
+            this.props.additionalPlaylistInfoClassName
+              ? ` ${this.props.additionalPlaylistInfoClassName}`
+              : ""
+          }`}
+        >
           <div className={styles.cover}>
             {this.props.coverImageURLs.length === 1 && (
               <LazyLoadImage
@@ -184,8 +190,8 @@ class Playlist extends React.Component<IPlaylistProps, IPlaylistState> {
             <a
               href={
                 this.props.isSpotifyOpened
-                  ? `spotify:user:${this.props.userId}:playlists:${this.props.playlistId}`
-                  : `https://open.spotify.com/user/${this.props.userId}/playlists/${this.props.playlistId}`
+                  ? `spotify:playlist:${this.props.playlistId}`
+                  : `https://open.spotify.com/playlist/${this.props.playlistId}`
               }
               target="_blank"
               rel="noreferrer"
