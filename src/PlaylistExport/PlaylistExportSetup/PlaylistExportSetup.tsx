@@ -13,7 +13,7 @@ interface IPlaylist {
   name: string;
   numberOfSongs: number;
   coverURL?: string;
-  firstSongsCoverURLs: Array<string>;
+  // firstSongsCoverURLs: Array<string>; I probably don't need this for now - Spotify generates the playlist cover image automatically  based on the tracks
 }
 
 interface IPlaylistExportSetupState {
@@ -60,9 +60,12 @@ class PlaylistExportSetup extends React.Component<
           name: e.name,
           numberOfSongs: e.tracks.total,
           coverURL: e.images[0].url || null,
+          /*
+         I probably don't need this for now - Spotify generates the playlist cover image automatically  based on the tracks
           firstSongsCoverURLs: e.firstFourTracks.map(
             (elem: any) => elem.album.images[0].url
           ),
+          */
         };
       }
     );
@@ -108,9 +111,13 @@ class PlaylistExportSetup extends React.Component<
                   showSpotifyButton
                   additionalContainerClassName={styles.playlistContainer}
                   additionalPlaylistInfoClassName={styles.playlistInfo}
-                  coverImageURLs={
+                  /*
+                I probably don't need this for now - Spotify generates the playlist cover image automatically  based on the tracks
+                                coverImageURLs={
                     elem.coverURL ? [elem.coverURL] : elem.firstSongsCoverURLs
                   }
+                */
+                  coverImageURLs={[elem.coverURL || ""]}
                   onPlaylistClick={(
                     playlistId: string,
                     playlistName: string

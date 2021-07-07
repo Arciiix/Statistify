@@ -420,10 +420,15 @@ async function getUserPlaylists(
     let userPlaylistsResponse = await userPlaylistsRequest.json();
 
     let items = userPlaylistsResponse.items;
+    /*
+I probably don't need this for now - Spotify generates the playlist cover image automatically  based on the tracks
+        
 
-    let serializedItems = [];
+let items = userPlaylistsResponse.items;
+let serializedItems = [];
 
-    for await (let item of items) {
+
+for await (let item of items) {
       let firstTracks = await getFirstFourTracksFromPlaylist(token, item.id);
       if (firstTracks.error) {
         return firstTracks;
@@ -433,15 +438,21 @@ async function getUserPlaylists(
       }
     }
 
+    */
+
     return {
       error: false,
       data: {
         total: userPlaylistsResponse.total,
-        items: serializedItems,
+        //  items: serializedItems, (I probably don't need this for now - Spotify generates the playlist cover image automatically  based on the tracks)
+        items: items,
       },
     };
   }
 }
+
+/*
+I probably don't need this for now - Spotify generates the playlist cover image automatically  based on the tracks
 
 async function getFirstFourTracksFromPlaylist(
   token: string,
@@ -471,6 +482,8 @@ async function getFirstFourTracksFromPlaylist(
     return { error: false, data: tracksResponse.items };
   }
 }
+
+*/
 
 app.all("/api/*", (req, res) =>
   res.status(404).send({ error: true, errorMessage: "NOT_FOUND" })
