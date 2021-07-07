@@ -1,0 +1,118 @@
+.playlistContainer {
+  display: flex;
+  min-width: min-content;
+  max-width: 90vw;
+  min-height: 150px;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+}
+.cover {
+  background-color: rgb(59, 59, 59); /* In case cover didn't load */
+  width: 140px;
+  height: 140px;
+  margin-right: 10px;
+}
+.cover img {
+  width: 140px;
+  height: 140px;
+}
+
+.coverImageSongs img {
+  width: 70px;
+  height: 75px;
+  margin-top: -5px;
+}
+
+.coverImageSongsWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.playlistInfoWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.coverImageSongs {
+  display: flex;
+  flex-direction: row;
+}
+
+.playlistInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.playlistNameText {
+  color: white;
+  font-size: 3em;
+  text-align: left;
+}
+.playlistNumberOfSongsText {
+  color: white;
+  font-size: 2em;
+  text-align: left;
+}
+
+.playButtons {
+  width: 200px;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: right;
+  flex-direction: row;
+}
+.iconButton {
+  color: white;
+  font-size: 3em;
+  margin: 10px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.spotifyIcon:hover {
+  color: #1db954;
+}
+.spotifyIcon:active {
+  color: #179242;
+}
+
+.link {
+  cursor: pointer;
+}
+.link span {
+  transition: color 0.2s;
+}
+.link:hover span {
+  color: #1db954;
+}
+.link:active span {
+  color: #179242;
+}
+
+@media only screen and (max-width: 600px) {
+  .playlistContainer {
+    flex-direction: column;
+  }
+  .playlistInfoWrapper {
+    flex-direction: column;
+  }
+  .playlistNameText {
+    margin: 5px 0;
+    font-size: 2em;
+  }
+  .playlistNumberOfSongsText {
+    margin-bottom: 5px;
+    font-size: 1em;
+  }
+  .playButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}

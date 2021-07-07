@@ -146,9 +146,11 @@ class Home extends React.Component<any, IHomeState> {
                   Rekomendacje
                 </button>
               </Link>
-              <button className={homeStyles.optionButton}>
-                Export playlisty
-              </button>
+              <Link to="/playlistExport/setup">
+                <button className={homeStyles.optionButton}>
+                  Export playlisty
+                </button>
+              </Link>
             </div>
             <div className={homeStyles.isSpotifyOpenedDiv}>
               <span
