@@ -54,6 +54,49 @@
   margin: 10px;
 }
 
+.pageControl {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.pageControlButton {
+  width: 300px;
+  height: 50px;
+  background-color: #0db850;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 2em;
+  margin: 30px 30px 10px 10px;
+  transition: background-color 0.2s;
+}
+.pageControlButton:hover {
+  cursor: pointer;
+  background-color: #0b9241;
+}
+.pageControlButton:active {
+  background-color: #07662d;
+}
+
+.pageNumberWrapper {
+  width: 100%;
+  text-align: center;
+}
+
+.pageNumber {
+  color: white;
+  font-size: 3em;
+  text-align: center;
+  margin: 10px;
+}
+
+.hidden {
+  opacity: 0;
+  cursor: default !important;
+}
+
 @media only screen and (max-width: 250px) {
   .logoText {
     font-size: 30px;
@@ -63,6 +106,17 @@
   }
   .header {
     font-size: 2em;
+  }
+  .pageControl {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .pageControlButton {
+    width: 200px;
+    margin: 10px;
+    font-size: 1em;
   }
 }
 
@@ -77,6 +131,27 @@
   .header {
     font-size: 3em;
   }
+  .pageControl {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .pageControlButton {
+    width: 200px;
+    margin: 10px;
+    font-size: 1em;
+  }
+  .pageControl {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .pageControlButton {
+    width: 200px;
+    margin: 10px;
+    font-size: 1.3em;
+  }
 }
 
 @media only screen and (min-width: 351px) {
@@ -89,6 +164,17 @@
   }
   .header {
     font-size: 3em;
+  }
+  .pageControl {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .pageControlButton {
+    width: 300px;
+    margin: 10px;
+    font-size: 1.5em;
   }
 }
 
@@ -105,6 +191,17 @@
   .header {
     font-size: 3.5em;
   }
+  .pageControl {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .pageControlButton {
+    width: 300px;
+    margin: 10px;
+    font-size: 2em;
+  }
 }
 
 @media only screen and (min-width: 768px) {
@@ -119,6 +216,17 @@
   .header {
     font-size: 4em;
   }
+  .pageControl {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .pageControlButton {
+    width: 300px;
+    margin: 10px;
+    font-size: 2em;
+  }
 }
 
 @media only screen and (min-width: 1200px) {
@@ -132,5 +240,14 @@
   }
   .header {
     font-size: 4em;
+  }
+  .pageControl {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .pageControlButton {
+    width: 300px;
+    margin: 0px 30px 10px 10px;
+    font-size: 2em;
   }
 }

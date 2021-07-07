@@ -79,6 +79,18 @@ class PlaylistExportSetup extends React.Component<
     });
   }
 
+  async changePage(goForward: boolean): Promise<void> {
+    let newPage = goForward
+      ? this.state.currentPage + 1
+      : this.state.currentPage - 1;
+    if (newPage < 1 || newPage > this.state.totalPages) return;
+
+    //DEV
+    //TODO: Actually change the page by making a request to the server to retrieve the new page of tracks
+
+    this.setState({ currentPage: newPage });
+  }
+
   render() {
     if (this.state.isLoading) {
       return <Loading />;
@@ -129,6 +141,31 @@ class PlaylistExportSetup extends React.Component<
                 />
               );
             })}
+          </div>
+          <div className={styles.pageNumberWrapper}>
+            <span className={styles.pageNumber}>
+              {this.state.currentPage}/{this.state.totalPages}
+            </span>
+          </div>
+          <div className={styles.pageControl}>
+            <button
+              className={`${styles.pageControlButton}${
+                this.state.currentPage === 1 ? ` ${styles.hidden}` : ""
+              }`}
+              onClick={this.changePage.bind(this, false)}
+            >
+              Poprzednia strona
+            </button>
+            <button
+              className={`${styles.pageControlButton}${
+                this.state.currentPage === this.state.totalPages
+                  ? ` ${styles.hidden}`
+                  : ""
+              }`}
+              onClick={this.changePage.bind(this, true)}
+            >
+              Następna strona
+            </button>
           </div>
         </div>
       );
