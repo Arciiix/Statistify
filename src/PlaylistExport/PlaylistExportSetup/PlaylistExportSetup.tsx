@@ -2,7 +2,6 @@ import React from "react";
 import LogOut from "../../LogOut/LogOut";
 import { checkForLoginValidity } from "../../Account";
 
-import { FaSearch } from "react-icons/fa";
 import styles from "./PlaylistExportSetup.module.css";
 
 import Loading from "../../Loading/Loading";
@@ -13,7 +12,7 @@ interface IPlaylist {
   name: string;
   numberOfSongs: number;
   coverURL?: string;
-  // firstSongsCoverURLs: Array<string>; I probably don't need this for now - Spotify generates the playlist cover image automatically  based on the tracks
+  firstSongsCoverURLs: Array<string>;
 }
 
 interface IPlaylistExportSetupState {
@@ -45,50 +44,77 @@ class PlaylistExportSetup extends React.Component<
     let playlistsRequest = await fetch(`/api/getUserPlaylists/1`);
     let playlistResponse = await playlistsRequest.json();
 
-    console.log(playlistResponse);
-
     if (playlistsRequest.status !== 200 || playlistResponse.error) {
       //DEV
       //Handle an error
       return;
     }
 
-    let playlists: Array<IPlaylist> = playlistResponse.data.items.map(
-      (e: any) => {
-        return {
-          id: e.id,
-          name: e.name,
-          numberOfSongs: e.tracks.total,
-          coverURL: e.images[0].url || null,
-          /*
-         I probably don't need this for now - Spotify generates the playlist cover image automatically  based on the tracks
-          firstSongsCoverURLs: e.firstFourTracks.map(
-            (elem: any) => elem.album.images[0].url
-          ),
-          */
-        };
+    let data = this.handleThePlaylistData(playlistResponse);
+
+    document.addEventListener("keydown", (e) => {
+      if (this.state.isLoading) return;
+      if (e.key.toLowerCase() === "arrowleft") {
+        this.changePage(false);
+      } else if (e.key.toLowerCase() === "arrowright") {
+        this.changePage(true);
       }
-    );
+    });
 
     this.setState({
       isSpotifyOpened:
         window.sessionStorage.getItem("isSpotifyOpened") === "true" || false,
       isLoading: false,
-      data: playlists,
-      totalPages: playlistResponse.data.totalPages,
+      data: data.data,
+      totalPages: data.totalPages,
     });
   }
 
+  handleThePlaylistData(
+    data: any
+  ): { data: Array<IPlaylist>; totalPages: number } {
+    let playlists: Array<IPlaylist> = data.data.items.map((e: any) => {
+      return {
+        id: e.id,
+        name: e.name,
+        numberOfSongs: e.tracks.total,
+        coverURL: e?.images?.[0]?.url || null,
+        firstSongsCoverURLs: e.firstFourTracks.map(
+          (elem: any) => elem?.album?.images?.[0]?.url || ""
+        ),
+      };
+    });
+
+    return { data: playlists, totalPages: data.data.totalPages };
+  }
+
   async changePage(goForward: boolean): Promise<void> {
+    await new Promise((resolve: any) => {
+      this.setState({ isLoading: true }, resolve);
+    });
+
     let newPage = goForward
       ? this.state.currentPage + 1
       : this.state.currentPage - 1;
     if (newPage < 1 || newPage > this.state.totalPages) return;
 
-    //DEV
-    //TODO: Actually change the page by making a request to the server to retrieve the new page of tracks
+    let newPageRequest = await fetch(`/api/getUserPlaylists/${newPage}`);
+    let newPageResponse = await newPageRequest.json();
 
-    this.setState({ currentPage: newPage });
+    if (newPageRequest.status !== 200 || newPageResponse.error) {
+      //DEV
+      //Handle an error
+      return;
+    }
+
+    let data = this.handleThePlaylistData(newPageResponse);
+
+    this.setState({
+      isLoading: false,
+      data: data.data,
+      totalPages: data.totalPages,
+      currentPage: newPage,
+    });
   }
 
   render() {
@@ -123,13 +149,9 @@ class PlaylistExportSetup extends React.Component<
                   showSpotifyButton
                   additionalContainerClassName={styles.playlistContainer}
                   additionalPlaylistInfoClassName={styles.playlistInfo}
-                  /*
-                I probably don't need this for now - Spotify generates the playlist cover image automatically  based on the tracks
-                                coverImageURLs={
+                  coverImageURLs={
                     elem.coverURL ? [elem.coverURL] : elem.firstSongsCoverURLs
                   }
-                */
-                  coverImageURLs={[elem.coverURL || ""]}
                   onPlaylistClick={(
                     playlistId: string,
                     playlistName: string
