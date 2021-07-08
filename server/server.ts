@@ -366,7 +366,7 @@ app.get("/api/getUserPlaylists/:page", async (req, res) => {
       .status(400)
       .send({ error: true, errorMessage: "WRONG_PAGENUMBER" });
 
-  let limit = 5;
+  let limit: number = 5;
   let offset: number = (parseInt(req.params.page) - 1) * limit;
 
   let userPlaylistsRequest = await getUserPlaylists(
@@ -430,8 +430,62 @@ app.get("/api/getPlaylist", async (req, res) => {
       }
     }
 
-    return res.send(playlistResponse);
+    return res.send({ error: false, data: playlistResponse });
   }
+});
+
+app.get("/api/getPlaylistItems/:page", async (req, res) => {
+  //Validate the token - so whether user is logged
+  let tokenValidation = await validateJWTToken(req.cookies.token);
+  if (tokenValidation.error) return res.status(403).send(tokenValidation);
+
+  if (!req.query.id)
+    return res.status(400).send({ error: true, errorMessage: "MISSING_ID" });
+  if (!req.params.page || isNaN(parseInt(req.params.page)))
+    return res
+      .status(400)
+      .send({ error: true, errorMessage: "WRONG_PAGENUMBER" });
+
+  let limit: number = 100;
+  let offset: number = (parseInt(req.params.page) - 1) * limit;
+
+  let playlistItemsRequestSettings: any = {
+    limit: limit,
+    offset: offset,
+    market: "PL",
+  };
+
+  let playlistItemsRequest = await fetch(
+    `https://api.spotify.com/v1/playlists/${
+      req.query.id
+    }/tracks?${new URLSearchParams(playlistItemsRequestSettings)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${tokenValidation.payload.token}`,
+      },
+    }
+  );
+
+  if (playlistItemsRequest.status !== 200) {
+    return res.status(500).send({
+      error: true,
+      errorMessage: `STATUS_CODE: ${
+        playlistItemsRequest.status
+      }; RESPONSE: ${await playlistItemsRequest.text()}`,
+    });
+  }
+
+  let playlistItemsResponse = await playlistItemsRequest.json();
+
+  return res.send({
+    error: false,
+    data: {
+      total: playlistItemsResponse.total,
+      totalPages: Math.ceil(playlistItemsResponse.total / limit),
+      currentPage: parseInt(req.params.page),
+      items: playlistItemsResponse.items,
+    },
+  });
 });
 
 async function getUserPlaylists(

@@ -75,6 +75,8 @@ class Recommendations extends React.Component<any, IRecommendationsState> {
       } else {
         let serializedData: Array<ITrack> = [];
         recommendationsResponse.data.forEach((elem: any) => {
+          if (!elem) return null;
+
           let authors = elem.artists.map((e: any) => e.name);
 
           let track: ITrack = {

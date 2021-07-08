@@ -78,6 +78,7 @@ class RecommendationsSetup extends React.Component<
 
     let serializedData: Array<IRecommendationsTrack> | null = [];
     serializedData = response.data.map((e: any) => {
+      if (!e) return null;
       let authors = e.artists.map((e: any) => e.name);
       let track: IRecommendationsTrack = {
         id: e.id,

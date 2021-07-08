@@ -16,6 +16,24 @@ interface IPlaylist {
   firstSongsCoverURLs: Array<string> | null;
 }
 
+interface ITrack {
+  id: string;
+  title: string;
+  author: string;
+  album: string;
+  coverURL?: string;
+  lengthMs: number;
+  previewUrl: string;
+}
+
+type combineTypes<T> = { [K in keyof T]: T[K] };
+type statistifyExportedDataCombined = IPlaylist & {
+  tracks?: Array<ITrack>;
+  exportDate?: number;
+  credit?: string;
+};
+type statistifyExportedData = combineTypes<statistifyExportedDataCombined>;
+
 interface IPlaylistExportState {
   isLoading: boolean;
   isSpotifyOpened: boolean;
@@ -23,6 +41,14 @@ interface IPlaylistExportState {
   downloadProcess: {
     isDownloading: boolean;
     downloadProgress: number;
+    currentPage: number;
+    totalPages: number;
+  };
+  downloadedTracksSimplified: Array<ITrack>;
+  exportedData: any;
+  dataInJSON: {
+    full: string;
+    statistifyVersion: string;
   };
 }
 
@@ -41,6 +67,14 @@ class PlaylistExport extends React.Component<any, IPlaylistExportState> {
       downloadProcess: {
         isDownloading: true,
         downloadProgress: 0,
+        currentPage: 1,
+        totalPages: 1,
+      },
+      downloadedTracksSimplified: [],
+      exportedData: {},
+      dataInJSON: {
+        full: "",
+        statistifyVersion: "",
       },
     };
   }
@@ -68,31 +102,119 @@ class PlaylistExport extends React.Component<any, IPlaylistExportState> {
     }
 
     let playlist: IPlaylist = {
-      id: playlistResponse.id,
-      name: playlistResponse.name,
-      numberOfSongs: playlistResponse.tracks.total,
-      coverURL: playlistResponse?.images?.[0]?.url || null,
+      id: playlistResponse.data.id,
+      name: playlistResponse.data.name,
+      numberOfSongs: playlistResponse.data.tracks.total,
+      coverURL: playlistResponse.data?.images?.[0]?.url || null,
       firstSongsCoverURLs:
-        playlistResponse?.firstFourTracks?.map(
+        playlistResponse.data?.firstFourTracks?.map(
           (elem: any) => elem?.album?.images?.[0]?.url || ""
         ) || null,
     };
 
-    this.setState({
-      isLoading: false,
-      isSpotifyOpened:
-        window.sessionStorage.getItem("isSpotifyOpened") === "true" || false,
-      playlist: playlist,
+    let exportedData = playlistResponse.data;
+    exportedData.tracks.items = [];
+    exportedData.exportDate = new Date().getTime();
+    exportedData.credit = "Exported by Statistify - made by Arciiix";
+
+    this.setState(
+      {
+        isLoading: false,
+        isSpotifyOpened:
+          window.sessionStorage.getItem("isSpotifyOpened") === "true" || false,
+        playlist: playlist,
+        exportedData: exportedData,
+      },
+      this.downloadNextPage.bind(this)
+    );
+  }
+
+  async downloadNextPage() {
+    if (
+      this.state.downloadProcess.currentPage >
+      this.state.downloadProcess.totalPages
+    )
+      return;
+    let tracksRequest = await fetch(
+      `/api/getPlaylistItems/${
+        this.state.downloadProcess.currentPage
+      }?id=${encodeURIComponent(this.state.playlist.id)}`
+    );
+    let tracksResponse = await tracksRequest.json();
+
+    if (tracksRequest.status !== 200 || tracksResponse.error) {
+      //DEV
+      //Handle an error
+      return;
+    }
+
+    let tracks = tracksResponse.data.items;
+
+    let simplifiedTracks: Array<ITrack> = tracks.map((e: any) => {
+      if (!e.track) return;
+      let authors = e.track.artists.map((elem: any) => elem.name);
+      return {
+        id: e.track.id,
+        title: e.track.name,
+        author: authors.join(", "),
+        album: e.track.album.name,
+        coverURL: e.track.album.images[0].url,
+        lengthMs: e.track.duration_ms,
+        previewUrl: e.track.preview_url,
+      };
     });
 
-    setInterval(() => {
-      this.setState({
+    let currentExportedDataObject = this.state.exportedData;
+    currentExportedDataObject.tracks.items = [
+      ...currentExportedDataObject.tracks.items,
+      ...tracks,
+    ];
+
+    this.setState(
+      {
         downloadProcess: {
-          isDownloading: false,
-          downloadProgress: this.state.downloadProcess.downloadProgress + 1,
+          isDownloading:
+            this.state.downloadProcess.currentPage + 1 >
+            tracksResponse.data.totalPages
+              ? false
+              : true,
+          totalPages: tracksResponse.data.totalPages,
+          currentPage: this.state.downloadProcess.currentPage + 1,
+          downloadProgress: Math.ceil(
+            (this.state.downloadProcess.currentPage /
+              tracksResponse.data.totalPages) *
+              100
+          ),
         },
-      });
-    }, 1000);
+        downloadedTracksSimplified: [
+          ...(this.state.downloadedTracksSimplified as Array<ITrack>),
+          ...simplifiedTracks,
+        ],
+        exportedData: currentExportedDataObject,
+      },
+      () => {
+        if (
+          this.state.downloadProcess.currentPage <=
+          this.state.downloadProcess.totalPages
+        ) {
+          setTimeout(() => {
+            this.downloadNextPage();
+          }, 500);
+        } else {
+          let statistifyVersion: statistifyExportedData = this.state.playlist;
+          statistifyVersion.tracks = this.state.downloadedTracksSimplified;
+          statistifyVersion.exportDate = new Date().getTime();
+          statistifyVersion.credit = "Exported by Statistify - made by Arciiix";
+
+          this.setState({
+            dataInJSON: {
+              full: JSON.stringify(this.state.exportedData),
+              statistifyVersion: JSON.stringify(statistifyVersion),
+            },
+          });
+        }
+      }
+    );
   }
 
   render() {
@@ -149,11 +271,12 @@ class PlaylistExport extends React.Component<any, IPlaylistExportState> {
             {!this.state.downloadProcess.isDownloading && (
               <div className={styles.downloadButtonsDiv}>
                 <button className={styles.downloadButton}>
-                  Pobierz szczegółowy plik (DEV: SIZE HERE)
+                  Pobierz plik Statistify (zalecane) (DEV: SIZE HERE)
                 </button>
                 <button className={styles.downloadButton}>
                   Pobierz szczegółowy plik (DEV: SIZE HERE)
                 </button>
+                {this.state.dataInJSON.statistifyVersion}
               </div>
             )}
           </div>

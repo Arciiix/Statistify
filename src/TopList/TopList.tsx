@@ -102,6 +102,8 @@ class TopList extends React.Component<any, ITopListState> {
         let serializedTracks: Array<ITopTrack> = [];
 
         tracks.forEach((elem, index) => {
+          if (!elem) return null;
+
           let authors = elem.artists.map((e: any) => e.name);
 
           let track: ITopTrack = {
