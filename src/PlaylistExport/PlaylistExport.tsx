@@ -217,6 +217,62 @@ class PlaylistExport extends React.Component<any, IPlaylistExportState> {
     );
   }
 
+  download(useStatistifyVersion: boolean): void {
+    const blob = new Blob(
+      [
+        useStatistifyVersion
+          ? this.state.dataInJSON.statistifyVersion
+          : this.state.dataInJSON.full,
+      ],
+      { type: "application/json" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    let aElement = document.createElement("a");
+    aElement.href = url;
+
+    let filenameRegExp = /(con|prn|aux|nul|com[0-9]|lpt[0-9])|([<>:"\/\\|?*])|(\.|\s)$/gi;
+    let safePlaylistName = this.state.playlist.name.replaceAll(
+      filenameRegExp,
+      ""
+    );
+
+    aElement.download = `${safePlaylistName} (${this.formatDate(
+      new Date()
+    )}) - playlista Spotify - ${
+      useStatistifyVersion ? "export" : "export szczegółowy"
+    } Statistify.json`;
+    document.body.appendChild(aElement);
+    aElement.click();
+    aElement.remove();
+  }
+
+  calculateSize(text: string): string {
+    const size = encodeURI(text).split(/%..|./).length - 1;
+    if (size === 0) return "0 B";
+
+    const k = 1024;
+    const sizes = ["B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+    const i = Math.floor(Math.log(size) / Math.log(k));
+
+    return (
+      parseFloat((size / Math.pow(k, i)).toFixed(1)) +
+      " " +
+      (sizes[i] ? sizes[i] : sizes[sizes.length - 1])
+    );
+  }
+
+  formatDate(date: Date): string {
+    return `${this.addZero(date.getDate())}.${this.addZero(
+      date.getMonth() + 1
+    )}.${date.getFullYear()}`;
+  }
+
+  addZero(number: number): string {
+    return number < 10 ? `0${number}` : `${number}`;
+  }
+
   render() {
     if (this.state.isLoading) {
       return <Loading />;
@@ -270,13 +326,20 @@ class PlaylistExport extends React.Component<any, IPlaylistExportState> {
             )}
             {!this.state.downloadProcess.isDownloading && (
               <div className={styles.downloadButtonsDiv}>
-                <button className={styles.downloadButton}>
-                  Pobierz plik Statistify (zalecane) (DEV: SIZE HERE)
+                <button
+                  className={styles.downloadButton}
+                  onClick={this.download.bind(this, true)}
+                >
+                  Pobierz plik Statistify (zalecane) [
+                  {this.calculateSize(this.state.dataInJSON.statistifyVersion)}]
                 </button>
-                <button className={styles.downloadButton}>
-                  Pobierz szczegółowy plik (DEV: SIZE HERE)
+                <button
+                  className={styles.downloadButton}
+                  onClick={this.download.bind(this, false)}
+                >
+                  Pobierz szczegółowy plik [
+                  {this.calculateSize(this.state.dataInJSON.full)}]
                 </button>
-                {this.state.dataInJSON.statistifyVersion}
               </div>
             )}
           </div>
