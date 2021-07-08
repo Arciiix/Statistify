@@ -1,6 +1,9 @@
 .container {
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  height: 95vh;
+  justify-content: space-between;
 }
 .logo {
   display: flex;
@@ -27,16 +30,6 @@
   text-align: center;
 }
 
-.headerWrapper {
-  width: 100%;
-  text-align: center;
-  margin-top: 40px;
-}
-.header {
-  color: white;
-  font-size: 4em;
-}
-
 .playlistWrapper {
   width: 100%;
   display: flex;
@@ -54,47 +47,65 @@
   margin: 10px;
 }
 
-.pageControl {
+.download {
   display: flex;
+  flex-direction: column;
   width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
 }
 
-.pageControlButton {
-  width: 300px;
-  height: 50px;
+.loadingDiv {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 50px 0;
+}
+
+.loadingBackground {
+  background-color: #1c472d;
+  height: 30px;
+  width: 100%;
+  border-radius: 20px;
+}
+.loading {
+  background-color: #0db850;
+  height: 30px;
+  border-radius: 20px;
+  margin-top: -30px;
+}
+
+.downloadProgressText {
+  color: white;
+  text-align: center;
+  font-size: 5em;
+}
+
+.downloadButtonsDiv {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.downloadButton {
+  width: 800px;
+  height: 60px;
   background-color: #0db850;
   color: white;
   border: none;
   border-radius: 5px;
   font-size: 2em;
-  margin: 30px 30px 10px 10px;
+  margin-bottom: 10px;
   transition: background-color 0.2s;
 }
-.pageControlButton:hover {
+.downloadButton:hover {
   cursor: pointer;
   background-color: #0b9241;
 }
-.pageControlButton:active {
+.downloadButton:active {
   background-color: #07662d;
-}
-
-.pageNumberWrapper {
-  width: 100%;
-  text-align: center;
-}
-
-.pageNumber {
-  color: white;
-  font-size: 3em;
-  text-align: center;
-  margin: 10px;
-}
-
-.hidden {
-  opacity: 0;
-  cursor: default !important;
 }
 
 @media only screen and (max-width: 250px) {
@@ -104,18 +115,14 @@
     width: 100%;
     word-wrap: break-word;
   }
-  .header {
-    font-size: 2em;
+  .loadingDiv {
+    width: 80%;
   }
-  .pageControl {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  .downloadProgressText {
+    font-size: 3em;
   }
-  .pageControlButton {
-    width: 200px;
-    margin: 10px;
+  .downloadButton {
+    width: 150px;
     font-size: 1em;
   }
 }
@@ -128,20 +135,15 @@
     font-size: 30px;
     margin-top: 50px;
   }
-  .header {
+  .loadingDiv {
+    width: 80%;
+  }
+  .downloadProgressText {
     font-size: 3em;
   }
-
-  .pageControl {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-  .pageControlButton {
-    width: 200px;
-    margin: 10px;
-    font-size: 1.3em;
+  .downloadButton {
+    width: 300px;
+    font-size: 1.2em;
   }
 }
 
@@ -153,18 +155,14 @@
     font-size: 45px;
     margin-top: 50px;
   }
-  .header {
+  .loadingDiv {
+    width: 80%;
+  }
+  .downloadProgressText {
     font-size: 3em;
   }
-  .pageControl {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-  .pageControlButton {
+  .downloadButton {
     width: 300px;
-    margin: 10px;
     font-size: 1.5em;
   }
 }
@@ -179,19 +177,15 @@
     font-size: 55px;
     margin-top: 0px;
   }
-  .header {
-    font-size: 3.5em;
+  .loadingDiv {
+    width: 60%;
   }
-  .pageControl {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  .downloadProgressText {
+    font-size: 3em;
   }
-  .pageControlButton {
-    width: 300px;
-    margin: 10px;
-    font-size: 2em;
+  .downloadButton {
+    width: 500px;
+    font-size: 1.6em;
   }
 }
 
@@ -204,19 +198,15 @@
   .logoText {
     font-size: 70px;
   }
-  .header {
+  .loadingDiv {
+    width: 60%;
+  }
+  .downloadProgressText {
     font-size: 4em;
   }
-  .pageControl {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-  .pageControlButton {
-    width: 300px;
-    margin: 10px;
-    font-size: 2em;
+  .downloadButton {
+    width: 600px;
+    font-size: 1.8em;
   }
 }
 
@@ -229,16 +219,14 @@
   .logoText {
     font-size: 90px;
   }
-  .header {
-    font-size: 4em;
+  .loadingDiv {
+    width: 50%;
   }
-  .pageControl {
-    flex-direction: row;
-    justify-content: space-between;
+  .downloadProgressText {
+    font-size: 5em;
   }
-  .pageControlButton {
-    width: 300px;
-    margin: 0px 30px 10px 10px;
+  .downloadButton {
+    width: 800px;
     font-size: 2em;
   }
 }

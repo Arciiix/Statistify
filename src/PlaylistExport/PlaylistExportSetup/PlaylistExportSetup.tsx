@@ -12,7 +12,7 @@ interface IPlaylist {
   name: string;
   numberOfSongs: number;
   coverURL?: string;
-  firstSongsCoverURLs: Array<string>;
+  firstSongsCoverURLs: Array<string> | null;
 }
 
 interface IPlaylistExportSetupState {
@@ -79,9 +79,10 @@ class PlaylistExportSetup extends React.Component<
         name: e.name,
         numberOfSongs: e.tracks.total,
         coverURL: e?.images?.[0]?.url || null,
-        firstSongsCoverURLs: e.firstFourTracks.map(
-          (elem: any) => elem?.album?.images?.[0]?.url || ""
-        ),
+        firstSongsCoverURLs:
+          e?.firstFourTracks?.map(
+            (elem: any) => elem?.album?.images?.[0]?.url || ""
+          ) || null,
       };
     });
 
@@ -89,14 +90,14 @@ class PlaylistExportSetup extends React.Component<
   }
 
   async changePage(goForward: boolean): Promise<void> {
-    await new Promise((resolve: any) => {
-      this.setState({ isLoading: true }, resolve);
-    });
-
     let newPage = goForward
       ? this.state.currentPage + 1
       : this.state.currentPage - 1;
     if (newPage < 1 || newPage > this.state.totalPages) return;
+
+    await new Promise((resolve: any) => {
+      this.setState({ isLoading: true }, resolve);
+    });
 
     let newPageRequest = await fetch(`/api/getUserPlaylists/${newPage}`);
     let newPageResponse = await newPageRequest.json();
@@ -150,15 +151,12 @@ class PlaylistExportSetup extends React.Component<
                   additionalContainerClassName={styles.playlistContainer}
                   additionalPlaylistInfoClassName={styles.playlistInfo}
                   coverImageURLs={
-                    elem.coverURL ? [elem.coverURL] : elem.firstSongsCoverURLs
+                    elem.coverURL
+                      ? [elem.coverURL]
+                      : elem.firstSongsCoverURLs || []
                   }
-                  onPlaylistClick={(
-                    playlistId: string,
-                    playlistName: string
-                  ) => {
-                    console.log(
-                      `Clicked playlist ${playlistId} with name ${playlistName}`
-                    );
+                  onPlaylistClick={(playlistId: string) => {
+                    window.location.href = `/playlistExport?id=${playlistId}`;
                   }}
                 />
               );

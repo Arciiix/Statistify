@@ -390,6 +390,50 @@ app.get("/api/getUserPlaylists/:page", async (req, res) => {
   }
 });
 
+app.get("/api/getPlaylist", async (req, res) => {
+  //Validate the token - so whether user is logged
+  let tokenValidation = await validateJWTToken(req.cookies.token);
+  if (tokenValidation.error) return res.status(403).send(tokenValidation);
+
+  if (!req.query.id)
+    return res.status(400).send({ error: true, errorMessage: "MISSING_ID" });
+
+  let playlistRequest = await fetch(
+    `https://api.spotify.com/v1/playlists/${encodeURIComponent(
+      req.query.id as string
+    )}`,
+    {
+      headers: {
+        Authorization: `Bearer ${tokenValidation.payload.token}`,
+      },
+    }
+  );
+  if (playlistRequest.status !== 200) {
+    return res.status(500).send({
+      error: true,
+      errorMessage: `STATUS_CODE: ${
+        playlistRequest.status
+      }; RESPONSE: ${await playlistRequest.text()}`,
+    });
+  } else {
+    let playlistResponse = await playlistRequest.json();
+
+    if (!playlistResponse?.images[0]?.url) {
+      let firstTracks = await getFirstFourTracksFromPlaylist(
+        tokenValidation.payload.token,
+        playlistResponse.id
+      );
+      if (firstTracks.error) {
+        return firstTracks;
+      } else {
+        playlistResponse.firstFourTracks = firstTracks.data.map((e) => e.track);
+      }
+    }
+
+    return res.send(playlistResponse);
+  }
+});
+
 async function getUserPlaylists(
   token: string,
   limit: number,
@@ -422,11 +466,15 @@ async function getUserPlaylists(
     let serializedItems = [];
 
     for await (let item of items) {
-      let firstTracks = await getFirstFourTracksFromPlaylist(token, item.id);
-      if (firstTracks.error) {
-        return firstTracks;
+      if (!item?.images[0]?.url) {
+        let firstTracks = await getFirstFourTracksFromPlaylist(token, item.id);
+        if (firstTracks.error) {
+          return firstTracks;
+        } else {
+          item.firstFourTracks = firstTracks.data.map((e) => e.track);
+          serializedItems.push(item);
+        }
       } else {
-        item.firstFourTracks = firstTracks.data.map((e) => e.track);
         serializedItems.push(item);
       }
     }

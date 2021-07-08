@@ -10,6 +10,7 @@ import TopListSetup from "./TopList/TopListSetup/TopListSetup";
 import RecommendationsSetup from "./Recommendations/RecommendationsSetup/RecommendationsSetup";
 import Recommendations from "./Recommendations/Recommendations";
 import PlaylistExportSetup from "./PlaylistExport/PlaylistExportSetup/PlaylistExportSetup";
+import PlaylistExport from "./PlaylistExport/PlaylistExport";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
         <Route path="/recommendations/setup" exact>
           <RecommendationsSetup />
         </Route>
+        <Route path="/playlistExport" exact component={PlaylistExport} />{" "}
+        {/*I need to pass the component in-line because I will access the query parameters in it */}
         <Route path="/playlistExport/setup" exact>
           <PlaylistExportSetup />
         </Route>
