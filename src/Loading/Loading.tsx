@@ -19,7 +19,7 @@ class Loading extends React.Component<ILoadingProps, any> {
           <div className={`${styles.dot} ${styles.dot2}`}></div>
           <div className={`${styles.dot} ${styles.dot3}`}></div>
         </div>
-        <h1 className={styles.loadingText}>Loading...</h1>
+        <h1 className={styles.loadingText}>Ładowanie...</h1>
       </div>
     );
   }
