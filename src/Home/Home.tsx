@@ -100,7 +100,7 @@ class Home extends React.Component<any, IHomeState> {
 
   render() {
     if (this.state.isLoading) {
-      return <Loading />;
+      return <Loading fullScreen />;
     } else {
       if (this.state.isLogged) {
         return (

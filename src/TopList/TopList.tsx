@@ -172,7 +172,7 @@ class TopList extends React.Component<any, ITopListState> {
 
   render() {
     if (this.state.isLoading) {
-      return <Loading />;
+      return <Loading fullScreen />;
     } else {
       return (
         <div className={styles.container}>

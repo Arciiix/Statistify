@@ -48,7 +48,7 @@ class ProceedLogin extends React.Component<any, ProceedLoginState> {
 
   render() {
     if (!this.state.error) {
-      return <Loading />;
+      return <Loading fullScreen />;
     } else {
       return (
         <div>
