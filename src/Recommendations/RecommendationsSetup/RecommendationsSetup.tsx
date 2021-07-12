@@ -8,6 +8,7 @@ import styles from "./RecommendationsSetup.module.css";
 import Song from "../../Song/Song";
 import Loading from "../../Loading/Loading";
 import Player from "../../Player/Player";
+import Footer from "../../Footer/Footer";
 
 interface IRecommendationsTrack {
   id: string;
@@ -185,6 +186,9 @@ class RecommendationsSetup extends React.Component<
               })}
             </div>
           )}
+          <div className={styles.footerWrapper}>
+            <Footer />
+          </div>
           <div className={styles.whiteSpace}></div>
         </div>
         <div className={styles.playerDiv}>

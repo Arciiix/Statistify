@@ -116,6 +116,10 @@
   width: 100%;
 }
 
+.footerWrapper {
+  margin-top: 20px;
+}
+
 @media only screen and (max-width: 250px) {
   .logoText {
     font-size: 30px;

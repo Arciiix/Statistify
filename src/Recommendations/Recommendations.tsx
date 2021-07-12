@@ -8,6 +8,7 @@ import styles from "./Recommendations.module.css";
 import Song from "../Song/Song";
 import Loading from "../Loading/Loading";
 import Player from "../Player/Player";
+import Footer from "../Footer/Footer";
 
 interface ITrack {
   id: string;
@@ -215,6 +216,8 @@ class Recommendations extends React.Component<any, IRecommendationsState> {
               );
             })}
           </div>
+
+          <Footer />
 
           <div className={styles.playerDiv}>
             <Player

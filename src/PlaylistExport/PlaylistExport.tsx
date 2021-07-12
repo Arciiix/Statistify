@@ -7,6 +7,7 @@ import styles from "./PlaylistExport.module.css";
 
 import Loading from "../Loading/Loading";
 import Playlist from "../Playlist/Playlist";
+import Footer from "../Footer/Footer";
 
 interface IPlaylist {
   id: string;
@@ -342,6 +343,7 @@ class PlaylistExport extends React.Component<any, IPlaylistExportState> {
                   Pobierz szczegółowy plik [
                   {this.calculateSize(this.state.dataInJSON.full)}]
                 </button>
+                <Footer />
               </div>
             )}
           </div>

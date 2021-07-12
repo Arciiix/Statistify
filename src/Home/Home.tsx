@@ -7,6 +7,7 @@ import homeStyles from "./Home.module.css";
 import Song from "../Song/Song";
 import LogOut from "../LogOut/LogOut";
 import Loading from "../Loading/Loading";
+import Footer from "../Footer/Footer";
 
 interface IHomeState {
   isLoading: boolean;
@@ -177,6 +178,7 @@ class Home extends React.Component<any, IHomeState> {
                 width={48}
               />
             </div>
+            <Footer />
           </div>
         );
       } else {
@@ -204,6 +206,7 @@ class Home extends React.Component<any, IHomeState> {
                 </span>
               </button>
             </div>
+            <Footer hideAppName />
           </div>
         );
       }

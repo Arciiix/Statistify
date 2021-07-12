@@ -12,6 +12,7 @@ import Loading from "../Loading/Loading";
 import Song from "../Song/Song";
 import Artist from "../Artist/Artist";
 import Player from "../Player/Player";
+import Footer from "../Footer/Footer";
 
 interface ITopListState {
   isLoading: boolean;
@@ -241,6 +242,7 @@ class TopList extends React.Component<any, ITopListState> {
                 );
               })}
           </div>
+          <Footer />
           <div
             className={`${styles.onceAgain}${
               ((this.state.resourceType as unknown) as string) === "songs"

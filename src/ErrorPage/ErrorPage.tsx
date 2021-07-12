@@ -28,8 +28,8 @@ class ErrorPage extends React.Component<any, IErrorPageState> {
     }
   }
 
-  goToTheHomePage() {
-    window.location.href = "/";
+  goBack() {
+    this.props.history.goBack();
   }
 
   render() {
@@ -57,8 +57,8 @@ class ErrorPage extends React.Component<any, IErrorPageState> {
           <span className={styles.errorText}>{this.state.error}</span>
         </div>
         <div className={styles.wrapper}>
-          <button className={styles.btn} onClick={this.goToTheHomePage}>
-            Strona główna
+          <button className={styles.btn} onClick={this.goBack.bind(this)}>
+            Powrót
           </button>
         </div>
       </div>

@@ -35,7 +35,7 @@ app.get("/api/loginWithSpotify", (req, res) => {
     show_dialog: "true", //DEV
     //TODO: Use the state parameter - state: "MAKE THIS",
     scope:
-      "user-read-recently-played user-read-playback-state user-top-read playlist-read-private playlist-read-collaborative", //TODO: Add the suitable scopes
+      "user-read-recently-played user-read-playback-state user-top-read playlist-read-private playlist-read-collaborative",
   };
   res.redirect(
     `https://accounts.spotify.com/authorize?${new URLSearchParams(
@@ -77,8 +77,8 @@ app.get("/api/generateToken", async (req, res) => {
     },
     body: spotifyRequestBodySerialised,
   });
+
   let spotifyRequstRes = await spotifyRequest.json();
-  console.log(spotifyRequstRes);
 
   if (spotifyRequstRes.error) {
     return res
@@ -111,6 +111,13 @@ app.get("/api/getUserData", async (req, res) => {
     },
   });
 
+  if (basicUserInfoReq.status !== 200) {
+    return res.status(500).send({
+      error: true,
+      errorMessage: await basicUserInfoReq.text(),
+    });
+  }
+
   let basicUserInfo = await basicUserInfoReq.json();
 
   if (basicUserInfo.error) {
@@ -126,6 +133,13 @@ app.get("/api/getUserData", async (req, res) => {
     },
   });
   let currentTrack: any = await currentTrackReq.text();
+
+  if (currentTrackReq.status !== 200) {
+    return res.status(500).send({
+      error: true,
+      errorMessage: currentTrack,
+    });
+  }
 
   if (currentTrack == "") {
     currentTrack = await getCurrentTrackFromLatestPlayed(
@@ -231,6 +245,13 @@ app.get("/api/getTopList", async (req, res) => {
     }
   );
 
+  if (userTopListRequest.status !== 200) {
+    return res.status(500).send({
+      error: true,
+      errorMessage: await userTopListRequest.text(),
+    });
+  }
+
   let userTopListResponse = await userTopListRequest.json();
 
   if (!userTopListResponse || userTopListResponse.error) {
@@ -306,7 +327,7 @@ app.get("/api/getTrack", async (req, res) => {
         errorMessage: `WRONG_ID`,
       });
     } else {
-      res.status(500).send({
+      return res.status(500).send({
         error: true,
         errorMessage: `STATUS_CODE: ${
           trackRequest.status

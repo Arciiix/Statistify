@@ -6,6 +6,7 @@ import styles from "./PlaylistExportSetup.module.css";
 
 import Loading from "../../Loading/Loading";
 import Playlist from "../../Playlist/Playlist";
+import Footer from "../../Footer/Footer";
 
 interface IPlaylist {
   id: string;
@@ -189,6 +190,7 @@ class PlaylistExportSetup extends React.Component<
               Następna strona
             </button>
           </div>
+          <Footer />
         </div>
       );
     }

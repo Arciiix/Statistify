@@ -9,6 +9,7 @@ import "rc-slider/assets/index.css";
 
 import { topResourceType, topTimePeriod } from "../TopListTypes";
 import type { ISettings } from "../TopListTypes";
+import Footer from "../../Footer/Footer";
 
 interface ITopListSetupState {
   settings: ISettings;
@@ -161,6 +162,7 @@ class TopListSetup extends React.Component<any, ITopListSetupState> {
             Sprawdź <span className={styles.submitFullText}>swój ranking</span>
           </button>
         </div>
+        <Footer />
       </div>
     );
   }
