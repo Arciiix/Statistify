@@ -1,6 +1,7 @@
 import React from "react";
 import queryString from "query-string";
 import Loading from "../Loading/Loading";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
 interface ProceedLoginState {
   error: boolean;
@@ -16,6 +17,12 @@ class ProceedLogin extends React.Component<any, ProceedLoginState> {
   }
   componentDidMount() {
     const parsedQueryParams = queryString.parse(this.props.location.search);
+
+    if (parsedQueryParams?.error === "access_denied") {
+      window.location.href = "/";
+      return;
+    }
+
     if (parsedQueryParams.code) {
       if (parsedQueryParams.error && parsedQueryParams.error !== "") {
         this.setState(
@@ -50,12 +57,7 @@ class ProceedLogin extends React.Component<any, ProceedLoginState> {
     if (!this.state.error) {
       return <Loading fullScreen />;
     } else {
-      return (
-        <div>
-          <h1>TODO: Make the error page</h1>
-          <h1>Error: {this.state.errorMessage}</h1>
-        </div>
-      );
+      return <ErrorPage error={this.state.errorMessage} />;
     }
   }
 }

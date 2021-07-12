@@ -8,7 +8,6 @@ interface ILoadingProps {
 
 class Loading extends React.Component<ILoadingProps, any> {
   render() {
-    //TODO: Create the loading page
     return (
       <div
         className={`${styles.container}${

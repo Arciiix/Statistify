@@ -11,6 +11,7 @@ import RecommendationsSetup from "./Recommendations/RecommendationsSetup/Recomme
 import Recommendations from "./Recommendations/Recommendations";
 import PlaylistExportSetup from "./PlaylistExport/PlaylistExportSetup/PlaylistExportSetup";
 import PlaylistExport from "./PlaylistExport/PlaylistExport";
+import ErrorPage from "./ErrorPage/ErrorPage";
 
 function App() {
   return (
@@ -35,6 +36,8 @@ function App() {
           <PlaylistExportSetup />
         </Route>
         <Route path="/proceedLogin" exact component={ProceedLogin} />{" "}
+        {/*I need to pass the component in-line because I will access the query parameters in it */}
+        <Route path="/error" exact component={ErrorPage} />{" "}
         {/*I need to pass the component in-line because I will access the query parameters in it */}
       </Switch>
     </Router>
