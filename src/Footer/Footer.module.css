@@ -1,0 +1,32 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.creditText {
+  color: #ffffff;
+  font-size: 1em;
+}
+.creditLink {
+  color: #0db850;
+  text-decoration: none;
+}
+
+.creditLink:hover {
+  cursor: pointer;
+  color: #0b9241;
+}
+.creditLink:active,
+.creditLink:focus {
+  color: #07662d;
+}
