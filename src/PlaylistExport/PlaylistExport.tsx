@@ -207,7 +207,8 @@ class PlaylistExport extends React.Component<any, IPlaylistExportState> {
           let statistifyVersion: statistifyExportedData = this.state.playlist;
           statistifyVersion.tracks = this.state.downloadedTracksSimplified;
           statistifyVersion.exportDate = new Date().getTime();
-          statistifyVersion.credit = "Exported by Statistify - made by Arciiix";
+          statistifyVersion.credit =
+            "Exported by Statistify - made by Arciiix [https://github.com/Arciiix/]";
 
           this.setState({
             dataInJSON: {
