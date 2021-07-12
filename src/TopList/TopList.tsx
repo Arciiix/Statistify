@@ -82,8 +82,6 @@ class TopList extends React.Component<any, ITopListState> {
       numberOfResults < 1 ||
       numberOfResults > 50
     ) {
-      //DEV
-      //TODO: Log error
       window.location.href = "/topList/setup";
     } else {
       let settings: ISettings = {
@@ -153,13 +151,15 @@ class TopList extends React.Component<any, ITopListState> {
     let queryParams: string = queryString.stringify(settings);
     let topListRequest = await fetch(`/api/getTopList?${queryParams}`);
     if (topListRequest.status !== 200) {
-      //DEV
-      //TODO: Log error
+      window.location.href = `/error?error=${encodeURIComponent(
+        await topListRequest.text()
+      )}`;
     }
     let topListResponse = await topListRequest.json();
     if (topListResponse.error) {
-      //DEV
-      //TODO: Log error
+      window.location.href = `/error?error=${encodeURIComponent(
+        topListResponse.errorMessage
+      )}`;
       return;
     }
 

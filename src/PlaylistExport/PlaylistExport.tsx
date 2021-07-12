@@ -96,8 +96,9 @@ class PlaylistExport extends React.Component<any, IPlaylistExportState> {
     let playlistResponse = await playlistRequest.json();
 
     if (playlistRequest.status !== 200 || playlistResponse.error) {
-      //DEV
-      //TODO: Handle an error
+      window.location.href = `/error?error=${encodeURIComponent(
+        playlistResponse.errorMessage
+      )}`;
       return;
     }
 

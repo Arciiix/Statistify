@@ -70,8 +70,9 @@ class Recommendations extends React.Component<any, IRecommendationsState> {
         recommendationsRequest.status !== 200 ||
         recommendationsResponse.error
       ) {
-        //DEV
-        //TODO: Handle the error
+        window.location.href = `/error?error=${encodeURIComponent(
+          recommendationsResponse.errorMessage
+        )}`;
       } else {
         let serializedData: Array<ITrack> = [];
         recommendationsResponse.data.forEach((elem: any) => {
@@ -106,8 +107,9 @@ class Recommendations extends React.Component<any, IRecommendationsState> {
       );
       let initSongResponse = await initSongRequest.json();
       if (initSongRequest.status !== 200 || initSongResponse.error) {
-        //DEV
-        //TODO: Handle an error
+        window.location.href = `/error?error=${encodeURIComponent(
+          initSongResponse.errorMessage
+        )}`;
       } else {
         let song = initSongResponse.data;
         let authors = song.artists.map((e: any) => e.name);

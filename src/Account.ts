@@ -3,9 +3,7 @@ async function checkForLoginValidity(): Promise<any> {
   let userAuthResponse = await userAuthRequest.json();
 
   if (userAuthResponse.error) {
-    if (userAuthResponse.errorMessage == "INVALID_TOKEN") {
-      window.location.href = "/";
-    }
+    window.location.href = "/";
   } else {
     return userAuthResponse;
   }

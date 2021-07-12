@@ -56,8 +56,9 @@ class Home extends React.Component<any, IHomeState> {
       if (userDataResponse.errorMessage == "INVALID_TOKEN") {
         this.setState({ isLogged: false, isLoading: false });
       } else {
-        //DEV
-        //TODO: Handle the error
+        window.location.href = `/error?error=${encodeURIComponent(
+          userDataResponse.errorMessage
+        )}`;
         this.setState({ isLogged: false, isLoading: false });
       }
     } else {

@@ -71,9 +71,9 @@ class RecommendationsSetup extends React.Component<
     let response = await request.json();
 
     if (request.status !== 200 || response.error) {
-      //DEV
-      //TODO: Handle an error
-      console.log(`ERROR: ${response.errorMessage}`);
+      window.location.href = `/error?error=${encodeURIComponent(
+        response.errorMessage
+      )}`;
     }
 
     let serializedData: Array<IRecommendationsTrack> | null = [];

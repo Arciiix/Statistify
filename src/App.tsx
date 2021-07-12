@@ -39,6 +39,9 @@ function App() {
         {/*I need to pass the component in-line because I will access the query parameters in it */}
         <Route path="/error" exact component={ErrorPage} />{" "}
         {/*I need to pass the component in-line because I will access the query parameters in it */}
+        <Route>
+          <ErrorPage error="404 - nie znaleziono tej strony" />
+        </Route>
       </Switch>
     </Router>
   );

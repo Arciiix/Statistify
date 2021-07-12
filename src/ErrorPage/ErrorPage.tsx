@@ -52,7 +52,7 @@ class ErrorPage extends React.Component<any, IErrorPageState> {
         </div>
         <div className={styles.wrapper}>
           <span className={`${styles.errorText} ${styles.bold}`}>
-            Error code:{" "}
+            Kod błędu:{" "}
           </span>
           <span className={styles.errorText}>{this.state.error}</span>
         </div>

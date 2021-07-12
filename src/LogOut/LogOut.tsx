@@ -7,14 +7,16 @@ class LogOut extends React.Component<any, any> {
   async removeTokenCookie() {
     let request = await fetch(`/api/logOut`, { method: "DELETE" });
     if (request.status !== 200) {
-      //DEV
-      //TODO: Log error
+      window.location.href = `/error?error=${encodeURIComponent(
+        await request.text()
+      )}`;
     }
 
     let response = await request.json();
     if (response.error) {
-      //DEV
-      //TODO: Log error
+      window.location.href = `/error?error=${encodeURIComponent(
+        response.errorMessage
+      )}`;
     } else {
       window.location.href = "/";
     }
