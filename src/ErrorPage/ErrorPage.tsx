@@ -1,5 +1,6 @@
 import React from "react";
 import queryString from "query-string";
+import { Link } from "react-router-dom";
 
 import styles from "./ErrorPage.module.css";
 
@@ -60,6 +61,9 @@ class ErrorPage extends React.Component<any, IErrorPageState> {
           <button className={styles.btn} onClick={this.goBack.bind(this)}>
             Powrót
           </button>
+          <Link to="/">
+            <button className={styles.btn}>Strona główna</button>
+          </Link>
         </div>
       </div>
     );
