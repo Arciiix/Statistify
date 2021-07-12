@@ -45,8 +45,9 @@ class PlaylistExportSetup extends React.Component<
     let playlistResponse = await playlistsRequest.json();
 
     if (playlistsRequest.status !== 200 || playlistResponse.error) {
-      //DEV
-      //Handle an error
+      window.location.href = `/error?error=${encodeURIComponent(
+        playlistResponse.errorMessage
+      )}`;
       return;
     }
 
@@ -103,8 +104,9 @@ class PlaylistExportSetup extends React.Component<
     let newPageResponse = await newPageRequest.json();
 
     if (newPageRequest.status !== 200 || newPageResponse.error) {
-      //DEV
-      //Handle an error
+      window.location.href = `/error?error=${encodeURIComponent(
+        newPageResponse.errorMessage
+      )}`;
       return;
     }
 

@@ -144,8 +144,9 @@ class PlaylistExport extends React.Component<any, IPlaylistExportState> {
     let tracksResponse = await tracksRequest.json();
 
     if (tracksRequest.status !== 200 || tracksResponse.error) {
-      //DEV
-      //Handle an error
+      window.location.href = `/error?error=${encodeURIComponent(
+        tracksResponse.errorMessage
+      )}`;
       return;
     }
 
