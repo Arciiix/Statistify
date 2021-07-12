@@ -121,7 +121,6 @@ class Home extends React.Component<any, IHomeState> {
               <span className={homeStyles.helloMessage}>
                 Cześć, {this.state.username}
               </span>
-              {/*DEV*/}
 
               <Song
                 trackId={this.state.currentTrack.id}
