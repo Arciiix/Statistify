@@ -41,8 +41,6 @@ class ProceedLogin extends React.Component<any, ProceedLoginState> {
   }
 
   async logIn(code: string | string[]): Promise<void> {
-    //DEV
-    //TODO: Remove the proxy from package.json
     let request = await fetch(`/api/generateToken?code=${code}`);
     let response = await request.json();
 

@@ -90,9 +90,8 @@ class Home extends React.Component<any, IHomeState> {
   }
 
   loginWithSpotify(): void {
-    //DEV
-    //TODO: Change this path
-    window.location.href = "http://localhost:8497/api/loginWithSpotify";
+    window.location.href =
+      "https://statistify.herokuapp.com/api/loginWithSpotify";
   }
 
   handleSpotifyOpenedSwitch(e: boolean): void {

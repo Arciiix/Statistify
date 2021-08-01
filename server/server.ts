@@ -2,6 +2,13 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import fetch from "node-fetch";
 import cookieParser from "cookie-parser";
+import path from "path";
+//import constants from "./secret";
+const constants = {
+  spotifyClientId: process.env.SPOTIFY_CLIENT_ID,
+  spotifyClientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  jwtSecret: process.env.JWT_SECRET,
+};
 
 const PORT: number | string = process.env.PORT || 8497;
 
@@ -12,9 +19,8 @@ const PORT: number | string = process.env.PORT || 8497;
  *@param {string} jwtSecret - Your jsonwebtoken (JWT) secret key
  */
 
-import constants from "./secret";
-
 const app = express();
+app.use(express.static("build"));
 
 app.use(cookieParser());
 
@@ -31,9 +37,8 @@ app.get("/api/loginWithSpotify", (req, res) => {
   let spotifyLoginSettings = {
     client_id: constants.spotifyClientId,
     response_type: "code",
-    redirect_uri: "http://localhost:3000/proceedLogin", //DEV
-    show_dialog: "true", //DEV
-    //TODO: Use the state parameter - state: "MAKE THIS",
+    redirect_uri: "https://statistify.herokuapp.com/proceedLogin",
+    show_dialog: "true",
     scope:
       "user-read-recently-played user-read-playback-state user-top-read playlist-read-private playlist-read-collaborative",
   };
@@ -54,7 +59,7 @@ app.get("/api/generateToken", async (req, res) => {
   let spotifyRequestBody = {
     grant_type: "authorization_code",
     code: req.query.code,
-    redirect_uri: "http://localhost:3000/proceedLogin", //DEV
+    redirect_uri: "https://statistify.herokuapp.com/proceedLogin",
   };
 
   let spotifyRequestBodySerialised = Object.keys(spotifyRequestBody)
@@ -133,13 +138,6 @@ app.get("/api/getUserData", async (req, res) => {
     },
   });
   let currentTrack: any = await currentTrackReq.text();
-
-  if (currentTrackReq.status !== 200) {
-    return res.status(500).send({
-      error: true,
-      errorMessage: currentTrack,
-    });
-  }
 
   if (currentTrack == "") {
     currentTrack = await getCurrentTrackFromLatestPlayed(
@@ -598,7 +596,7 @@ app.all("/api/*", (req, res) =>
 );
 
 app.all("*", (req, res) => {
-  res.send(`Hello, Statistify! (The UI will be there)`);
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 async function validateJWTToken(
